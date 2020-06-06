@@ -6,8 +6,7 @@ Description: A collection of custom functionals,
   as inputs.
 
   List of Functions:
-   1. Vectorize()
-   2. Map()
+   1. Map()
 
 #ce ---------------------------------------
 
