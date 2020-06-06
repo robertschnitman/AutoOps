@@ -13,7 +13,7 @@ Description: A master file of Robert's
 #include <File.au3>
 
 ; Robert's functions
-#include ".\Robert_Array Management.au3" ; Functions for managing arrays.
-#include ".\Robert_File Management.au3" ; Functions for managing files.
-#include ".\Robert_Functionals.au3" ; Functions that vectorize other functions.
-#include ".\Robert_String Functions.au3" ; Vectorized string functions
+#include ".\Array Management.au3" ; Functions for managing arrays.
+#include ".\File Management.au3" ; Functions for managing files.
+#include ".\Functionals.au3" ; Functions that vectorize other functions.
+#include ".\String Functions.au3" ; Vectorized string functions

@@ -15,7 +15,7 @@ List of Functions:
 #ce ---------------------------------------
 
 #cs -- ;DEPENDENCIES
-#include "I:\SAI\Auto-It files\Include\Robert_Functionals.au3"
+#include ".\Functionals.au3"
 
 #ce --
 
@@ -230,7 +230,7 @@ Func StringLenV($a) ; array, character to split by
 
    ; For each element, search for the character(s) to split by.
 
-   $x = Map(StringLen, $a); Map() is from Robert_Functionals.au3
+   $x = Map(StringLen, $a); Map() is from Functionals.au3
 
    Return $x ; always use the Return command to return a value when creating a function.
 
@@ -238,13 +238,13 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-#include "I:\SAI\Auto-It files\Include\Robert_ArrayColInsert2.au3" ; to load StringLenV
-#include "I:\SAI\Auto-It files\Include\Robert_Functionals.au3"
+#include ".\ArrayColInsert2.au3" ; to load StringLenV
+#include ".\Functionals.au3"
 
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 
 ; Get the lengths of each element from $my_array.
-$lens = StringLenV($my_array) ; from Robert_String Functions.au3
+$lens = StringLenV($my_array) ; from String Functions.au3
 
 ; Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
 $my_array2 = _ArrayColInsert2($my_array, 1, $lens)
