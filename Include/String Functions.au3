@@ -238,7 +238,7 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-#include ".\ArrayColInsert2.au3" ; to load StringLenV
+#include ".\Array Management.au3" ; to load _ArrayColInsert2().
 #include ".\Functionals.au3"
 
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]

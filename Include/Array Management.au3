@@ -23,7 +23,7 @@ Description: Inserts an array in a specified
 ; Dependency of _ArrayColInsert2().
 #include <Array.au3>
 
-Func _ArrayColInsert2($array_ref, $array_i, $col_position, )
+Func _ArrayColInsert2($array_ref, $array_i, $col_position)
 
    ; Insert a column to the desired location
    _ArrayColInsert($array_ref, $col_position)
