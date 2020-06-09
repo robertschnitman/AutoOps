@@ -14,7 +14,7 @@ List of Functions:
 ; The functions in this file depend on the following scripts.
 #include <Array.au3> ; for managing arrays.
 #include <File.au3> ; For managing files.
-; #include ".\Include\Robert_String Functions.au3"; Causes duplicate function error?
+; #include "I:\SAI\Auto-It files\Include\Robert_String Functions.au3"; Causes duplicate function error?
 
 ;================================================
 
@@ -98,3 +98,16 @@ Func FileRename_All($dir, $file_pattern, $string_old, $string_new)
    EndIf
 
 EndFunc
+
+
+#cs -- TEST BEGIN
+; load the StringReplaceV() function that's required for FileRename_All() to run
+#include ".\Robert_String Functions.au3"
+
+$my_dir = 'I:\Robert\AutoIt\Tests\RenameFiles\'
+
+FileRename_All($my_dir, 'RenameMe*.txt', 'RenameMe', 'NEWNAME')
+
+;FileRename_All($my_dir, 'NEWNAME*.txt', 'NEWNAME', 'RenameMe')
+
+#ce -- TEST END

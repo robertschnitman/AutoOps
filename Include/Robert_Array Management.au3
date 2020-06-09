@@ -43,7 +43,7 @@ EndFunc
 
 #cs -- TEST
 
-#include ".Include\Robert_String Functions.au3" ; to load StringLenV().
+#include "I.\Robert_String Functions.au3" ; to load StringLenV().
 
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 
