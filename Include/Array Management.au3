@@ -43,12 +43,12 @@ EndFunc
 
 #cs -- TEST
 
-#include ".\String Functions.au3" ; to load StringLenV().
+#include ".Include\Robert_String Functions.au3" ; to load StringLenV().
 
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 
 ; Get the lengths of each element from $my_array.
-$lens = StringLenV($my_array) ; from String Functions.au3
+$lens = StringLenV($my_array) ; from Robert_String Functions.au3
 
 ; In $my_array, insert $lens into the column index 1
 ; 	Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
@@ -58,6 +58,7 @@ _ArrayDisplay($my_array2)
 
 #ce --
 
+;==================================================
 
 #cs ---------------------------------------
 Author: Robert Schnitman

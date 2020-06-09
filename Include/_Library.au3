@@ -1,19 +1,24 @@
 #cs ---------------------------------------
 Author: Robert Schnitman
-Date: 2020-06-05
+Date Created: 2020-06-05
+Date Modified: 2020-06-08
 Description: A master file of Robert's
-  created functions and other libraries
-  for easier accessing/referencing.
+  created functions and other items for
+  easier accessing/referencing.
 
 #ce ---------------------------------------
 
-; Libraries included with AutoIt
+; Libraries included with AutoIt.
 #include <Date.au3>
 #include <Array.au3>
 #include <File.au3>
 
-; Robert's functions
-#include ".\Array Management.au3" ; Functions for managing arrays.
-#include ".\File Management.au3" ; Functions for managing files.
-#include ".\Functionals.au3" ; Functions that vectorize other functions.
-#include ".\String Functions.au3" ; Vectorized string functions
+; Robert's functions.
+#include ".\Robert_Array Management.au3" ; Functions for managing arrays.
+#include ".\Robert_File Management.au3" ; Functions for managing files.
+#include ".\Robert_Functionals.au3" ; Functions that vectorize other functions.
+#include ".\Robert_String Functions.au3" ; Vectorized string functions
+
+; Robert's variables.
+#include ".\Robert_Dates.au3" ; Objects for common date values.
+#include ".\Robert_MarketHolidays.au3"; To search for market holidays

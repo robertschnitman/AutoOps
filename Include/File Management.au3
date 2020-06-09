@@ -14,7 +14,7 @@ List of Functions:
 ; The functions in this file depend on the following scripts.
 #include <Array.au3> ; for managing arrays.
 #include <File.au3> ; For managing files.
-; #include ".\String Functions.au3"; Causes duplicate function error?
+; #include ".\Include\Robert_String Functions.au3"; Causes duplicate function error?
 
 ;================================================
 
@@ -32,14 +32,14 @@ Func FileRename($dir, $file_old, $file_new)
 
    ; If the last character in the directory name is NOT a back slash, throw an error.
    ; 	We need the final backslash so that we can concatenate the directory and the file name.
-   If StringRight($my_dir, 1)  <> '\' Then
+   If StringRight($dir, 1)  <> '\' Then
 
 	  MsgBox(1, 'ERROR', "Your directory object must have a final backslash ('\')! Add it and rerun.")
 
    ; Otherwise, rename the file.
    Else
 
-	  ; * $dir MUST HAVE A FORWARD SLASH AT THE END!!!!
+	  ; * $dir MUST HAVE A BACKSLASH AT THE END!!!!
 	  $path_old = $dir & $file_old
 	  $path_new = $dir & $file_new
 
@@ -72,7 +72,7 @@ Func FileRename_All($dir, $file_pattern, $string_old, $string_new)
 
    ; If the last character in the directory name is NOT a back slash, throw an error.
    ; 	We need the final backslash so that we can concatenate the directory and the file names.
-   If StringMid($my_dir, StringLen($my_dir)) <> '\' Then
+   If StringRight($dir, 1) <> '\' Then
 
 	  MsgBox(1, 'ERROR', "Your directory object must have a final backslash ('\')! Add it and rerun.")
 
@@ -80,29 +80,21 @@ Func FileRename_All($dir, $file_pattern, $string_old, $string_new)
    Else
 
 	  ; Set up parameters for the loop
-	  $my_files  = _FileListToArray($my_dir, $file_pattern, 1); name of files only
-	  $new_names = StringReplaceV($my_files, $string_old, $string_new); from ".\String Functions.au3"
+	  ;; name of files only
+	  $my_files  = _FileListToArray($dir, $file_pattern, 1);
+
+	  ;; Use the new file naming scheme.
+	  ;;; StringReplaceV() is from "I:\SAI\Auto-It files\Include\Robert_String Functions.au3"
+	  $new_names = StringReplaceV($my_files, $string_old, $string_new)
 
 	  ; For each of the old names, rename them to be the new names.
-	  ; 	The 0th index contains the number of files, so we exclude it from the loop and start from index 1.
+	  ;;  The 0th index contains the number of files, so we exclude it from the loop and start from index 1.
 	  For $i = 1 to UBound($my_files) - 1
 
-		 FileRename($my_dir, $my_files[$i], $new_names[$i])
+		 FileRename($dir, $my_files[$i], $new_names[$i])
 
 	  Next
 
    EndIf
 
 EndFunc
-
-
-#cs -- TEST BEGIN
-#include ".\String Functions.au3"; to load the StringReplaceV() function.
-
-$my_dir = 'I:\Robert\AutoIt\Tests\RenameFiles\'
-
-FileRename_All($my_dir, 'RenameMe*.txt', 'RenameMe', 'NEWNAME')
-
-;FileRename_All($my_dir, 'NEWNAME*.txt', 'NEWNAME', 'RenameMe')
-
-#ce-- TEST END

@@ -11,11 +11,13 @@ List of Functions:
    4. StringLeftV()
    5. StringRightV()
    6. StringLenV()
+   7. StringConcatenateV()
+   8. StringRegExpReplaceV()
 
 #ce ---------------------------------------
 
 #cs -- ;DEPENDENCIES
-#include ".\Functionals.au3"
+#include ".\Include\Robert_Functionals.au3"
 
 #ce --
 
@@ -89,7 +91,7 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-#include "I:\SAI\Auto-It files\Include\_NestedArrayDisplay.au3"
+#include ".\Include\_NestedArrayDisplay.au3"
 
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 
@@ -230,7 +232,7 @@ Func StringLenV($a) ; array, character to split by
 
    ; For each element, search for the character(s) to split by.
 
-   $x = Map(StringLen, $a); Map() is from Functionals.au3
+   $x = Map(StringLen, $a); Map() is from Robert_Functionals.au3
 
    Return $x ; always use the Return command to return a value when creating a function.
 
@@ -238,13 +240,12 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-#include ".\Array Management.au3" ; to load _ArrayColInsert2().
-#include ".\Functionals.au3"
+#include ".\Include\Robert_Array Management.au3" ; to load _ArrayColInsert2()
 
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 
 ; Get the lengths of each element from $my_array.
-$lens = StringLenV($my_array) ; from String Functions.au3
+$lens = StringLenV($my_array) ; from Robert_String Functions.au3
 
 ; Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
 $my_array2 = _ArrayColInsert2($my_array, 1, $lens)
@@ -253,3 +254,48 @@ _ArrayDisplay($my_array2)
 
 #ce -- END TEST
 
+;=====================================================
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-08
+Function: StringConcatenateV()
+Description: Concatenate elements for each element
+  in an array.
+
+#ce ---------------------------------------
+
+Func StringConcatenateV($a, $concat)
+
+   For $i = 0 to UBound($a) - 1
+
+	  $a[$i] = $a[$i] & $concat
+
+   Next
+
+   Return $a
+
+EndFunc
+
+;=====================================================
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-08
+Function: StringRegExpReplaceV()
+Description: A vectorization of StringRegExpReplace().
+
+#ce ---------------------------------------
+
+Func StringRegExpReplaceV($a, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
+
+   ; For each element, search for the character(s) to replace and then replace it with the desired character(s).
+   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+
+	  $a[$i] = StringRegExpReplace($a[$i], $search, $replace)
+
+   Next
+
+   Return $a ; always use the Return command to return a value when creating a function.
+
+EndFunc
