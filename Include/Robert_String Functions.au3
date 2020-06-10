@@ -573,7 +573,7 @@ Func StringJoin($a)
    $x = ""
 
    ; self-concatenate until the last element has been concatenated.
-   For $i in $strings
+   For $i in $a
 
 	  $x &= $i
 

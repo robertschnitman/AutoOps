@@ -27,9 +27,9 @@ Func Sum($a)
 
    $x = 0
 
-   For $i in $array
+   For $i = 0 to UBound($a) - 1
 
-	  $x += $i
+	  $x += $a[$i]
 
    Next
 
