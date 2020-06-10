@@ -17,8 +17,6 @@ Description: A collection of custom functionals,
 ; DEPENDENCY
 #include <Array.au3>
 
-
-
 ;==============================================
 
 #cs ---------------------------------------

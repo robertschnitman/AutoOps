@@ -7,8 +7,16 @@ Description: Collection of functions for
 List of functions:
   1. _ArrayColInsert2()
   2. Unnest()
+  3. _ArrayExtractCols()
+  4. _ArrayExtractRows()
 
 #ce ---------------------------------------
+
+; Dependency
+#include <Array.au3>
+
+;===============================================
+
 
 #cs ---------------------------------------
 Author: Robert Schnitman
@@ -19,9 +27,6 @@ Description: Inserts an array in a specified
  array to insert is 1 dimensional.
 
 #ce ---------------------------------------
-
-; Dependency of _ArrayColInsert2().
-#include <Array.au3>
 
 Func _ArrayColInsert2($array_ref, $array_i, $col_position)
 
@@ -96,3 +101,45 @@ Func Unnest($aoa) ; $aoa = array of arrays
    Return $array_unique
 
 EndFunc
+
+; =================================================
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-09
+Functions: _ArrayExtractCols(),
+           _ArrayExtractRows()
+
+Description: _ArrayExtractCols() extracts a
+  specific column(s) while retaining all rows.
+
+  _ArrayExtractRows() does the opposite:
+  it extracts a specific row(s) while
+  retaining all columns.
+
+#ce ---------------------------------------
+
+Func _ArrayExtractCols($array_ref, $col_start, $col_end)
+
+   Return _ArrayExtract($array_ref, -1, -1, $col_start, $col_end)
+
+EndFunc
+
+Func _ArrayExtractRows($array_ref, $row_start, $row_end)
+
+   Return _ArrayExtract($array_ref, $row_start, $row_end, -1, -1)
+
+EndFunc
+
+#cs
+Local $aArray[4][4]
+For $i = 0 To 3
+    For $j = 0 To 3
+        $aArray[$i][$j] = $i + $j
+    Next
+ Next
+
+_ArrayDisplay($aArray, "$aArray")
+ _ArrayDisplay(_ArrayExtractCols($aArray, 1, 2), "_ArrayExtractCols($aArray, 1, 2)")
+ _ArrayDisplay(_ArrayExtractRows($aArray, 1, 2), "_ArrayExtractRows($aArray, 1, 2)")
+#ce
