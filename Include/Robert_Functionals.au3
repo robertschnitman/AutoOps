@@ -66,13 +66,7 @@ Description: A function that maps a function
 
 Func MapJoin($f, $a)
 
-   For $i = 0 to UBound($a) - 1
-
-	  $a[$i] = $f($a[$i])
-
-   Next
-
-   Return StringJoin($a)
+   Return StringJoin(Map($f, $a))
 
 EndFunc
 
