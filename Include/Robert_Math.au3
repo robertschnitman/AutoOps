@@ -5,10 +5,9 @@ Last Modified: 2020-06-09
 Description: A collection of custom
   math functions for AutoIt.
 
-  List of Functions:
-    1. Sum()
-	2. Mean()
-
+List of Functions:
+  1. Sum()
+  2. Mean()
 #ce ---------------------------------------
 
 
@@ -20,7 +19,6 @@ Date: 2020-06-09
 Function: Sum()
 Description: Summation of all elements in
   an array.
-
 #ce ---------------------------------------
 
 Func Sum($a)
@@ -39,7 +37,6 @@ EndFunc
 
 #cs -- TEST
 Local $array = [1, 2, 3, 4, 5]
-
 MsgBox(1, 'Sum of $array', Sum($array))
 #ce --
 
@@ -51,7 +48,6 @@ Date: 2020-06-09
 Function: Mean()
 Description: Average of all elements in
   an array.
-
 #ce ---------------------------------------
 
 Func Mean($a)
@@ -62,7 +58,6 @@ EndFunc
 
 #cs -- TEST
 Local $array = [1, 2, 3, 4, 5]
-
 MsgBox(1, 'Mean of $array', Mean($array))
 #ce --
 
@@ -75,7 +70,6 @@ Date: 2020-06-09
 Function: SD()
 Description: Standard deviation of all
   elements in an array.
-
 #ce ---------------------------------------
 
 Func SD($a)

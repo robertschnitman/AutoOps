@@ -4,7 +4,6 @@ Date: 2020-06-05
 Last Modified: 2020-06-09
 Description: A collection of custom
   string functions for AutoIt.
-
 List of Functions:
    1. StringReplaceV()
    2. StringSplitV()
@@ -28,7 +27,6 @@ List of Functions:
 
 #cs -- ;DEPENDENCIES
 #include ".\Robert_Functionals.au3" ; Duplicate function error?
-
 #ce --
 
 
@@ -42,9 +40,7 @@ Function: StringReplaceV()
 Description: A vectorization of StringReplace().
   In other words, it applies StringReplace() for
   every element in an array (for 1 dimension).
-
   An attempted replication of gsub() from R.
-
 #ce ---------------------------------------
 
 Func StringReplaceV($a, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
@@ -64,12 +60,8 @@ EndFunc
 #cs -- BEGIN TEST
 #include <Array.au3>
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 $a2 = StringReplaceV($my_array, "_", " ")
-
 _ArrayDisplay($a2)
-
-
 #ce -- END TEST
 
 ;=====================================================
@@ -81,9 +73,7 @@ Function: StringSplitV()
 Description: A vectorization of StringSplit().
   In other words, it applies StringSplit() for
   every element in an array (for 1 dimension).
-
   *WARNING: The output is an array of arrays.
-
 #ce ---------------------------------------
 
 Func StringSplitV($a, $split) ; array, character to split by
@@ -102,11 +92,8 @@ EndFunc
 #cs -- BEGIN TEST
 #include <Array.au3>
 #include ".\_NestedArrayDisplay.au3"
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 $a2 = StringSplitV($my_array, "_")
-
 _NestedArrayDisplay($a2)
 #ce -- END TEST
 
@@ -121,8 +108,6 @@ Function: StringMidV()
 Description: A vectorization of StringMid().
   In other words, it applies StringMid() for
   every element in an array (for 1 dimension).
-
-
 #ce ---------------------------------------
 
 Func StringMidV($a, $start, $count = -1) ; array, character to split by
@@ -140,11 +125,8 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 $a2 = StringMidV($my_array, 3, 5)
-
 _ArrayDisplay($a2)
 #ce -- END TEST
 
@@ -159,8 +141,6 @@ Function: StringLeftV()
 Description: A vectorization of StringLeft().
   In other words, it applies StringLeft() for
   every element in an array (for 1 dimension).
-
-
 #ce ---------------------------------------
 
 Func StringLeftV($a, $count) ; array, character to split by
@@ -178,11 +158,8 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 $a2 = StringLeftV($my_array, 3)
-
 _ArrayDisplay($a2)
 #ce -- END TEST
 
@@ -196,8 +173,6 @@ Function: StringRightV()
 Description: A vectorization of StringRight().
   In other words, it applies StringRight() for
   every element in an array (for 1 dimension).
-
-
 #ce ---------------------------------------
 
 Func StringRightV($a, $count) ; array, character to split by
@@ -215,11 +190,8 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 $a2 = StringRightV($my_array, 3)
-
 _ArrayDisplay($a2)
 #ce -- END TEST
 
@@ -234,8 +206,6 @@ Function: StringLenV()
 Description: A vectorization of StringLen().
   In other words, it applies StringLen() for
   every element in an array (for 1 dimension).
-
-
 #ce ---------------------------------------
 
 Func StringLenV($a) ; array, character to split by
@@ -251,17 +221,12 @@ EndFunc
 #cs -- BEGIN TEST
 #include <Array.au3>
 #include ".\Robert_Array Management.au3" ; to load _ArrayColInsert2()
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 ; Get the lengths of each element from $my_array.
 $lens = StringLenV($my_array) ; from Robert_String Functions.au3
-
 ; Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
 $my_array2 = _ArrayColInsert2($my_array, 1, $lens)
-
 _ArrayDisplay($my_array2)
-
 #ce -- END TEST
 
 ;=====================================================
@@ -272,7 +237,6 @@ Date: 2020-06-08
 Function: StringConcatenateV()
 Description: Concatenate elements for each element
   in an array.
-
 #ce ---------------------------------------
 
 Func StringConcatenateV($a, $concat)
@@ -294,7 +258,6 @@ Author: Robert Schnitman
 Date: 2020-06-08
 Function: StringRegExpReplaceV()
 Description: A vectorization of StringRegExpReplace().
-
 #ce ---------------------------------------
 
 Func StringRegExpReplaceV($a, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
@@ -320,7 +283,6 @@ Function: StringInStrV()
 Description: A vectorization of StringInStr().
   As of 2020-06-09, the count parameter is
   not used.
-
 #ce ---------------------------------------
 
 Func StringInStrV($a, $substring, $casesense = 0, $occurrence = 1, $start = 1)
@@ -337,11 +299,8 @@ EndFunc
 
 #cs --
 #include <Array.au3>
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 $ssv_test = StringInStrV($my_array, "_")
-
 _ArrayDisplay($ssv_test)
 #ce --
 
@@ -352,7 +311,6 @@ Author: Robert Schnitman
 Date: 2020-06-09
 Function: StringStripCRV()
 Description: A vectorization of StringStripCR().
-
 #ce ---------------------------------------
 
 Func StringStripCRV($a)
@@ -366,11 +324,8 @@ EndFunc
 #cs -- TEST
 #include <Array.au3>
 #include ".\Robert_Functionals.au3"
-
 Local $my_array[3] = ["hi" & Chr(13) & "robert", "hi" & Chr(13) & "nathan", "hi" & Chr(13) & "faith"]
-
 $test = StringStripCRV($my_array)
-
 _ArrayDisplay($test)
 #ce --
 
@@ -381,7 +336,6 @@ Author: Robert Schnitman
 Date: 2020-06-09
 Function: StringStripWSV()
 Description: A vectorization of StringStripWS().
-
 #ce ---------------------------------------
 
 ; $Str_STRIPALL is from StringConstants.au3
@@ -402,11 +356,8 @@ EndFunc
 #cs -- TEST
 #include <Array.au3>
 #include <StringConstants.au3>
-
 Local $my_array[3] = ["hi robert", "hi nathan", "hi faith"]
-
 $test = StringStripWSV($my_array)
-
 _ArrayDisplay($test)
 #ce --
 
@@ -417,7 +368,6 @@ Author: Robert Schnitman
 Date: 2020-06-09
 Function: StringIsSpaceV()
 Description: A vectorization of StringIsSpace().
-
 #ce ---------------------------------------
 
 Func StringIsSpaceV($a)
@@ -431,11 +381,8 @@ EndFunc
 #cs -- TEST
 #include <Array.au3>
 #include ".\Robert_Functionals.au3"
-
 Local $my_array[4] = [Chr(13), "", "	", "hi"]
-
 $test = StringIsSpaceV($my_array)
-
 _ArrayDisplay($test)
 #ce --
 
@@ -447,7 +394,6 @@ Date: 2020-06-09
 Function: ZeroFlag()
 Description: Flag a 0 at the beginning of
   a string if a specified width is not met.
-
 #ce ---------------------------------------
 
 Func ZeroFlag($string, $width)
@@ -462,7 +408,6 @@ EndFunc
 
 #cs -- TEST
 $s = 700
-
 MsgBox(1, 'ZeroFlag($s, 4) output', ZeroFlag($s, 4))
 #ce --
 
@@ -474,7 +419,6 @@ Author: Robert Schnitman
 Date: 2020-06-09
 Function: ZeroFlagV()
 Description: A vectorization of ZeroFlag().
-
 #ce ---------------------------------------
 
 Func ZeroFlagV($a, $width)
@@ -493,9 +437,7 @@ EndFunc
 
 #cs --
 #include <Array.au3>
-
 Local $test[3] = [700, 930, 1625]
-
 _ArrayDisplay(ZeroFlagV($test, 4))
 #ce --
 
@@ -507,7 +449,6 @@ Date: 2020-06-09
 Function: ZeroFlagSSN()
 Description: Flag a 0 at the beginning of
   a string until a width of 9 is reached.
-
 #ce ---------------------------------------
 
 Func ZeroFlagSSN($string)
@@ -522,7 +463,6 @@ EndFunc
 
 #cs -- TEST
 $s = 700
-
 MsgBox(1, 'ZeroFlagSSN($s) output', ZeroFlagSSN($s))
 #ce --
 
@@ -534,7 +474,6 @@ Author: Robert Schnitman
 Date: 2020-06-09
 Function: ZeroFlagSSNV()
 Description: A vectorization of ZeroFlagSSN().
-
 #ce ---------------------------------------
 
 Func ZeroFlagSSNV($a)
@@ -548,9 +487,7 @@ EndFunc
 #cs -- TEST
 #include <Array.au3>
 #include "Robert_Functionals.au3"
-
 Local $test[3] = [700, 930, 1625]
-
 _ArrayDisplay(ZeroFlagSSNV($test))
 #ce
 
@@ -562,7 +499,6 @@ Date: 2020-06-09
 Function: StringJoin()
 Description: Concatenates all elements of an
   array into a single string.
-
   Inspired by the Ruby programming language's
   .join method.
 #ce ---------------------------------------
@@ -586,8 +522,8 @@ EndFunc
 
 #cs -- TEST
 Local $strings[5] = ["hi", "mon ami", "robert", "nathan", "faith"]
-
 $strings2 = StringJoin($strings)
-
 MsgBox(1, 'test', $strings2) ; output: "himon amirobert"
 #ce --
+
+; =======

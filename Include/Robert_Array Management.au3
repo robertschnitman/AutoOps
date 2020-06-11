@@ -3,13 +3,12 @@ Author: Robert Schnitman
 Date: 2020-06-05
 Description: Collection of functions for
   managing arrays.
-
 List of functions:
   1. _ArrayColInsert2()
   2. Unnest()
   3. _ArrayExtractCols()
   4. _ArrayExtractRows()
-
+  5. _ArrayFilter()
 #ce ---------------------------------------
 
 ; Dependency
@@ -25,7 +24,6 @@ Function: _ArrayColInsert2()
 Description: Inserts an array in a specified
  column of a reference array. Assumes that the
  array to insert is 1 dimensional.
-
 #ce ---------------------------------------
 
 Func _ArrayColInsert2($array_ref, $array_i, $col_position)
@@ -47,20 +45,14 @@ EndFunc
 
 
 #cs -- TEST
-
 #include "I.\Robert_String Functions.au3" ; to load StringLenV().
-
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
-
 ; Get the lengths of each element from $my_array.
 $lens = StringLenV($my_array) ; from Robert_String Functions.au3
-
 ; In $my_array, insert $lens into the column index 1
 ; 	Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
 $my_array2 = _ArrayColInsert2($my_array, $lens, 1)
-
 _ArrayDisplay($my_array2)
-
 #ce --
 
 ;==================================================
@@ -109,14 +101,11 @@ Author: Robert Schnitman
 Date: 2020-06-09
 Functions: _ArrayExtractCols(),
            _ArrayExtractRows()
-
 Description: _ArrayExtractCols() extracts a
   specific column(s) while retaining all rows.
-
   _ArrayExtractRows() does the opposite:
   it extracts a specific row(s) while
   retaining all columns.
-
 #ce ---------------------------------------
 
 Func _ArrayExtractCols($array_ref, $col_start, $col_end)
@@ -138,8 +127,34 @@ For $i = 0 To 3
         $aArray[$i][$j] = $i + $j
     Next
  Next
-
 _ArrayDisplay($aArray, "$aArray")
  _ArrayDisplay(_ArrayExtractCols($aArray, 1, 2), "_ArrayExtractCols($aArray, 1, 2)")
  _ArrayDisplay(_ArrayExtractRows($aArray, 1, 2), "_ArrayExtractRows($aArray, 1, 2)")
 #ce
+
+; ====================================================
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-10
+Functions: _ArrayFilter
+Description: _ArrayFilter() subsets an array
+  based on a search pattern.
+#ce ---------------------------------------
+
+Func _ArrayFilter($a, $search_pattern, $pattern_type = 3)
+
+	Local $indices = _ArrayFindAll($a, $search_pattern, Default, Default, Default, $pattern_type); patterntype = 3 = regular expression pattern
+
+	; Create an array of of just the indices only
+	Local $output[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($indices) - 1
+
+		$output[$i] = $a[$indices[$i]]
+
+	Next
+
+	Return $output
+
+EndFunc

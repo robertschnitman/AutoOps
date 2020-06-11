@@ -3,12 +3,9 @@ Author: Robert Schnitman
 Date: 2020-06-05
 Description: A collection of custom
   AutoIt functions for file management.
-
-
 List of Functions:
    1. FileRename()
    2. FileRename_All()
-
 #ce ---------------------------------------
 
 ; The functions in this file depend on the following scripts.
@@ -25,7 +22,6 @@ Function: FileRename()
 Description: Renames a single file in a
   specified directory. You must give the literal
   name of the old file.
-
 #ce ---------------------------------------
 
 Func FileRename($dir, $file_old, $file_new)
@@ -53,7 +49,6 @@ EndFunc
 
 #cs -- TEST BEGIN
 $my_dir = 'I:\Robert\AutoIt\Tests\RenameFiles\'
-
 FileRename($my_dir, 'RenameMe_1.txt', 'NEWNAME_1.txt')
 #ce -- TEST END
 
@@ -65,7 +60,6 @@ Date: 2020-06-05
 Function: FileRename_All()
 Description: Renames all files in a
   specified directory based on a given pattern.
-
 #ce ---------------------------------------
 
 Func FileRename_All($dir, $file_pattern, $string_old, $string_new)
@@ -103,11 +97,7 @@ EndFunc
 #cs -- TEST BEGIN
 ; load the StringReplaceV() function that's required for FileRename_All() to run
 #include ".\Robert_String Functions.au3"
-
 $my_dir = 'I:\Robert\AutoIt\Tests\RenameFiles\'
-
 FileRename_All($my_dir, 'RenameMe*.txt', 'RenameMe', 'NEWNAME')
-
 ;FileRename_All($my_dir, 'NEWNAME*.txt', 'NEWNAME', 'RenameMe')
-
 #ce -- TEST END
