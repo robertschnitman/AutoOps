@@ -9,6 +9,7 @@ List of functions:
   3. _ArrayExtractCols()
   4. _ArrayExtractRows()
   5. _ArrayFilter()
+  6. _ArrayFilter2() ; IN PROGRESS
 #ce ---------------------------------------
 
 ; Dependency
@@ -137,9 +138,12 @@ _ArrayDisplay($aArray, "$aArray")
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-10
-Functions: _ArrayFilter
+Functions: _ArrayFilter, _ArrayFilter2()
 Description: _ArrayFilter() subsets an array
   based on a search pattern.
+
+  _ArrayFilter2() does the same but keeps
+  all columns for a 2D array.
 #ce ---------------------------------------
 
 Func _ArrayFilter($a, $search_pattern, $pattern_type = 3)
@@ -158,3 +162,22 @@ Func _ArrayFilter($a, $search_pattern, $pattern_type = 3)
 	Return $output
 
 EndFunc
+
+#cs
+Func _ArrayFilter2($a, $search_pattern, $pattern_type = 3)
+
+	Local $indices = _ArrayFindAll($a, $search_pattern, Default, Default, Default, $pattern_type); patterntype = 3 = regular expression pattern
+
+	; Create an array of of just the indices only
+	Local $output[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($indices) - 1
+
+		_ArrayExtract($a, $i, $i)
+
+	Next
+
+	Return
+
+EndFunc
+#ce

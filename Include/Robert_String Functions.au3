@@ -22,12 +22,16 @@ List of Functions:
    15. ZeroFlagSSN()
    16. ZeroFlagSSNV()
    17. StringJoin()
+   18. StringDetect()
+   19. StringDetectV()
+   20. StringExtract() ; IN PROGRESS
+   21. StringExtractV() ; IN PROGRESS
 
 #ce ---------------------------------------
 
-#cs -- ;DEPENDENCIES
-#include ".\Robert_Functionals.au3" ; Duplicate function error?
-#ce --
+; DEPENDENCIES
+;#include ".\Robert_Functionals.au3" ; Duplicate function error?
+#include <StringConstants.au3>
 
 
 
@@ -503,7 +507,7 @@ Description: Concatenates all elements of an
   .join method.
 #ce ---------------------------------------
 
-Func StringJoin($a)
+Func StringJoin($a, $delimiter = "")
 
    ; initialize loop
    $x = ""
@@ -511,12 +515,14 @@ Func StringJoin($a)
    ; self-concatenate until the last element has been concatenated.
    For $i in $a
 
-	  $x &= $i
+	  $x &= $i & $delimiter
+
+	  $y = StringLeft($x, StringLen($x) - 1) ; Take out final delimiter
 
    Next
 
    ; Output should be the concatenation of all the elements into a single string.
-   Return $x
+   Return $y
 
 EndFunc
 
@@ -527,3 +533,83 @@ MsgBox(1, 'test', $strings2) ; output: "himon amirobert"
 #ce --
 
 ; =======
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-11
+Functions: StringDetect(), StringDetectV()
+Description: StringDetect() Detects whether there is a
+  regular pattern match and outputs True/False.
+
+  StringDetectV() is a vectorized version of
+  StringDetect(), intended for arrays.
+#ce ---------------------------------------
+
+Func StringDetect($string, $pattern)
+
+	If StringRegExp($string, $pattern) = 1 Then
+
+		$x = True
+
+	Else
+
+		$x = False
+
+	EndIf
+
+	Return $x
+
+EndFunc
+
+#cs -- TEST
+$str = "Loan Report_ABC Test.xls"
+
+$test_me = StringDetect($str, "ABC|CBA|XYZ")
+
+MsgBox(1, "test", $test_me & ": " & $str & " is in 'ABC|CBA|XYZ'")
+#ce --
+
+Func StringDetectV($a, $pattern) ; $a is an array
+
+	For $i = 0 to UBound($a) - 1
+
+		$a[$i] = StringDetect($a[$i], $pattern)
+
+	Next
+
+	Return $a
+
+EndFunc
+
+#cs -- TEST
+#include <Array.au3>
+
+Local $stra[] = ["Loan Report_ABC Test.xls", "Loan Report_CBA Test.xls", "Loan Report_dont select me.xls"]
+
+$test_me = StringDetectV($stra, "ABC|CBA|XYZ")
+
+_ArrayDisplay($test_me)
+#ce --
+
+; ====
+
+#cs
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-11
+Function: StringExtract(), StringExtractV()
+Description: StringExtract() extracts a
+  substring based on a pattern match.
+
+  StringExtractV() is a vectorized version of
+  StringExtract(), intended for arrays.
+#ce ---------------------------------------
+
+Func StringExtract($string, $pattern) ; $a is an array
+
+	If StringDetect($string, $pattern) = True Then
+
+		$x = StringMid($string,
+
+EndFunc
+#ce
