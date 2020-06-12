@@ -499,7 +499,8 @@ _ArrayDisplay(ZeroFlagSSNV($test))
 
 #cs ---------------------------------------
 Author: Robert Schnitman
-Date: 2020-06-09
+Date Created: 2020-06-09
+Date Modified: 2020-06-11
 Function: StringJoin()
 Description: Concatenates all elements of an
   array into a single string.
@@ -517,9 +518,19 @@ Func StringJoin($a, $delimiter = "")
 
 	  $x &= $i & $delimiter
 
+   Next
+
+   $last_char = StringRight($x, 1)
+
+   If $last_char = $delimiter Then
+
 	  $y = StringLeft($x, StringLen($x) - 1) ; Take out final delimiter
 
-   Next
+   Else
+
+	  $y = $x
+
+   EndIf
 
    ; Output should be the concatenation of all the elements into a single string.
    Return $y
@@ -528,8 +539,8 @@ EndFunc
 
 #cs -- TEST
 Local $strings[5] = ["hi", "mon ami", "robert", "nathan", "faith"]
-$strings2 = StringJoin($strings)
-MsgBox(1, 'test', $strings2) ; output: "himon amirobert"
+$strings2 = StringJoin($strings, "|")
+MsgBox(1, 'test', $strings2) ; output: "hi|mon ami|robert|nathan|faith"
 #ce --
 
 ; =======
@@ -607,9 +618,25 @@ Description: StringExtract() extracts a
 
 Func StringExtract($string, $pattern) ; $a is an array
 
-	If StringDetect($string, $pattern) = True Then
+	$a = StringRegExp($string, $pattern, 3)
 
-		$x = StringMid($string,
+	$out = _ArrayToString($a, ",")
+
+	Return $out
 
 EndFunc
+
+
+#include <Array.au3>
+#include "./Robert_Array Management.au3"
+
+Local $stra[] = ["Loan Report_ABC Test.xls", "Loan Report_CBA Test.xls", "Loan Report_dont select me.xls"]
+
+$stra_join = StringJoin($stra)
+
+$search_query = "ABC|XYZ|CBA"
+
+MsgBox(1, 'test', StringExtract($stra_join, $search_query))
+
+;_ArrayDisplay($x)
 #ce
