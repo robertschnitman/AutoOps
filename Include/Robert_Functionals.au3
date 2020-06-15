@@ -92,11 +92,8 @@ Date: 2020-06-09
 Functions: MapCol(), ColSums(), ColMeans()
 Description: MapCol() maps a function
   to each column in an array.
-
   ColSums() applies Sum() to each column.
-
   ColMeans() applies Mean() to each column.
-
   Sum() and Mean() are from Robert_Math.au3.
 #ce ---------------------------------------
 
