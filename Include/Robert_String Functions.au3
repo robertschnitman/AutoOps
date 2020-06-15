@@ -3,7 +3,14 @@ Author: Robert Schnitman
 Date: 2020-06-05
 Last Modified: 2020-06-09
 Description: A collection of custom
-  string functions for AutoIt.
+  string functions for AutoIt as mostly inspired
+  by the stringr package from R.
+  https://stringr.tidyverse.org/reference/index.html
+
+Notes: Unless otherwise noted, The "V" at the end of the
+  function name denotes that it applies to every element in a 1D array.
+
+
 List of Functions:
    1. StringReplaceV()
    2. StringSplitV()
@@ -11,29 +18,46 @@ List of Functions:
    4. StringLeftV()
    5. StringRightV()
    6. StringLenV()
-   7. StringConcatenateV()
-   8. StringRegExpReplaceV()
+   7. StringConcatenateV() = Concatenate a string to another string.
+		1. StringPaste()   = Shorthand for StringConcatenateV().
+   8. StringRegExpReplaceV() = Replace a string based on a regular expresion.
+		1. StringSub()       = Replace a string based on a regular expression (short hand of StringRegExpReplace()).
+		2. StringSubV()      = Replace each array element with another string (short hand of StringRegExpReplaceV()).
+		3. StringRemove()    = Removes a specified string from a larger string.
+		4. StringRemoveV()   = Applies StringRemove() to each element in an array.
    9. StringInStrV()
    10. StringStripCRV()
    11. StringStripWSV()
    12. StringIsSpaceV()
-   13. ZeroFlag()
+   13. ZeroFlag() = Specify a width to flag a 0 at the beginning of a string.
    14. ZeroFlagV()
-   15. ZeroFlagSSN()
+   15. ZeroFlagSSN() = Flag zeros to fill a 9-digit string.
    16. ZeroFlagSSNV()
-   17. StringJoin()
-   18. StringDetect()
+   17. StringJoin() = Combine all array elements into a single string.
+   18. StringDetect() = Detect whether a string meets a specified regular expression.
    19. StringDetectV()
-   20. StringExtract() ; IN PROGRESS
-   21. StringExtractV() ; IN PROGRESS
-
+   20. StringExtract() = Return array of string matches based on a regular expression.
+   21. StringExtractV()
+   22. StringDup() = Repeat a string a specified number of times.
+		1. StringDupV()
+   23. StringPos()        = Return array of positions of a specified string pattern.
+		1. StringSubset() = Subset an array of strings based on a regular expression pattern.
+   24. StringChomp()      = Remove all white space characters from a string.
+		1. StringChompV()
+   25. StringLocate()      = List the starting and ending positions of a specified substring.
+		1. StringLocateV()
+		2. StringStart()   = Output the starting position of a string. A simpler StringInStr().
+		3. StringEnd()     = Output the ending position of a string.
+   26. StringRange()       = Similar to StringMid, but the 3rd input is an ending position index.
+   27. StringTrim()        = Removes leading and trailing white spaces.
+		1. StringTrimV()
+		2. StringTrim2WS() = Removes double or more spaces.
+		3. StringTrim2WSV()
 #ce ---------------------------------------
 
 ; DEPENDENCIES
-;#include ".\Robert_Functionals.au3" ; Duplicate function error?
+;#include ".\Robert__Library.au3" ; Load this in a separate tab to test the functions below.
 #include <StringConstants.au3>
-
-
 
 ;=====================================================
 
@@ -213,10 +237,9 @@ Description: A vectorization of StringLen().
 #ce ---------------------------------------
 
 Func StringLenV($a) ; array, character to split by
-
    ; For each element, search for the character(s) to split by.
 
-   $x = Map(StringLen, $a); Map() is from Robert_Functionals.au3
+   $x = Map(StringLen, $a); Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
 
    Return $x ; always use the Return command to return a value when creating a function.
 
@@ -238,9 +261,11 @@ _ArrayDisplay($my_array2)
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-08
-Function: StringConcatenateV()
+Function: StringConcatenateV(), StringPaste()
 Description: Concatenate elements for each element
   in an array.
+
+  StringPaste() is a shorthand for StringConcatenateV().
 #ce ---------------------------------------
 
 Func StringConcatenateV($a, $concat)
@@ -255,13 +280,35 @@ Func StringConcatenateV($a, $concat)
 
 EndFunc
 
+Func StringPaste($a, $concat)
+
+	Return StringConcatenateV($a, $concat)
+
+EndFunc
+
 ;=====================================================
 
 #cs ---------------------------------------
 Author: Robert Schnitman
-Date: 2020-06-08
-Function: StringRegExpReplaceV()
+Date Created: 2020-06-08
+Date Modified: 2020-06-14
+Functions: StringRegExpReplaceV(),
+		   StringSub(),
+		   StringSubV(),
+		   StringRemove(),
+		   StringRemoveV()
+
 Description: A vectorization of StringRegExpReplace().
+
+  StringSub() is a shorthand for the defaults of StringRegExpReplace().
+
+  StringSubV() is a shorthand for the StringRegExpReplaceV()
+  ("generalized substitution").
+
+  StringRemove() removes a matched pattern from a string.
+
+  StringRemoveV() is a vectorization of StringRemove().
+
 #ce ---------------------------------------
 
 Func StringRegExpReplaceV($a, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
@@ -277,6 +324,37 @@ Func StringRegExpReplaceV($a, $search, $replace) ; array, character(s) to search
 
 EndFunc
 
+Func StringSub($string, $search, $replace)
+
+	Return StringRegExpReplace($string, $search, $replace)
+
+EndFunc
+
+Func StringSubV($a, $search, $replace)
+
+	$x = StringRegExpReplaceV($a, $search, $replace)
+
+	Return $x
+
+EndFunc
+
+Func StringRemove($string, $string_to_remove)
+
+	Return StringSub($string, $string_to_remove, "")
+
+EndFunc
+
+Func StringRemoveV($a, $string_to_remove)
+
+	For $i = 0 to UBound($a) - 1
+
+		$a[$i] = StringRemove($a[$i], $string_to_remove)
+
+	Next
+
+	Return $a
+
+EndFunc
 
 ;=====================================================
 
@@ -319,7 +397,7 @@ Description: A vectorization of StringStripCR().
 
 Func StringStripCRV($a)
 
-   $x = Map(StringStripCR, $a) ; Map() is from Robert_Functionals.au3
+   $x = Map(StringStripCR, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -376,7 +454,7 @@ Description: A vectorization of StringIsSpace().
 
 Func StringIsSpaceV($a)
 
-   $x = Map(StringIsSpace, $a) ; Map() is from Robert_Functionals.au3
+   $x = Map(StringIsSpace, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -482,7 +560,7 @@ Description: A vectorization of ZeroFlagSSN().
 
 Func ZeroFlagSSNV($a)
 
-   $x = Map(ZeroFlagSSN, $a) ; Map() is from Robert_Functionals.au3.
+   $x = Map(ZeroFlagSSN, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -520,6 +598,7 @@ Func StringJoin($a, $delimiter = "")
 
    Next
 
+   ; if the last character is a delimiter, remove it.
    $last_char = StringRight($x, 1)
 
    If $last_char = $delimiter Then
@@ -574,9 +653,7 @@ EndFunc
 
 #cs -- TEST
 $str = "Loan Report_ABC Test.xls"
-
 $test_me = StringDetect($str, "ABC|CBA|XYZ")
-
 MsgBox(1, "test", $test_me & ": " & $str & " is in 'ABC|CBA|XYZ'")
 #ce --
 
@@ -594,17 +671,14 @@ EndFunc
 
 #cs -- TEST
 #include <Array.au3>
-
 Local $stra[] = ["Loan Report_ABC Test.xls", "Loan Report_CBA Test.xls", "Loan Report_dont select me.xls"]
-
 $test_me = StringDetectV($stra, "ABC|CBA|XYZ")
-
 _ArrayDisplay($test_me)
 #ce --
 
 ; ====
 
-#cs
+
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-11
@@ -612,31 +686,267 @@ Function: StringExtract(), StringExtractV()
 Description: StringExtract() extracts a
   substring based on a pattern match.
 
-  StringExtractV() is a vectorized version of
-  StringExtract(), intended for arrays.
+  StringExtractV() is a vectorization of
+  StringExtract. Can pull multiple matches
+  per row.
+
 #ce ---------------------------------------
 
-Func StringExtract($string, $pattern) ; $a is an array
+Func StringExtract($string, $pattern)
 
-	$a = StringRegExp($string, $pattern, 3)
-
-	$out = _ArrayToString($a, ",")
-
-	Return $out
+	Return StringRegExp($string, $pattern, 3)
 
 EndFunc
 
+Func StringExtractV($a, $pattern, $delimiter = ",")
 
-#include <Array.au3>
-#include "./Robert_Array Management.au3"
+	For $i = 0 to UBound($a) - 1
 
+		$a[$i] = StringJoin(StringExtract($a[$i], $pattern), $delimiter)
+
+	Next
+
+	Return $a
+
+EndFunc
+
+#cs -- TEST
 Local $stra[] = ["Loan Report_ABC Test.xls", "Loan Report_CBA Test.xls", "Loan Report_dont select me.xls"]
 
 $stra_join = StringJoin($stra)
 
 $search_query = "ABC|XYZ|CBA"
 
-MsgBox(1, 'test', StringExtract($stra_join, $search_query))
+_ArrayDisplay(StringExtract($stra_join, $search_query))
 
 ;_ArrayDisplay($x)
 #ce
+
+; ====
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-12
+Functions: StringDup(), StringDupV()
+Description: StringDup() repeats a string
+  a specified number of times.
+
+  StringDupV() is a vectorization of
+  StringDup().
+
+#ce ---------------------------------------
+
+Func StringDup($string, $times)
+
+	Local $a[$times] = [0]
+
+	For $i = 0 to UBound($a) - 1
+
+		$a[$i] = $string
+
+	Next
+
+	Return StringJoin($a)
+
+EndFunc
+
+Func StringDupV($a, $times)
+
+	For $i = 0 to UBound($a) - 1
+
+		$a[$i] = StringDup($a[$i], $times)
+
+	Next
+
+	Return $a
+
+EndFunc
+
+#cs -- TEST
+#include "I:\SAI\Auto-it Files\Include\Robert__Library.au3"
+
+$s = "robert"
+
+$test = StringDup($s, 5)
+
+MsgBox(1, 'test', $test)
+#ce --
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Functions: StringPos(), StringSubset()
+Description: StringPos() finds specific indices
+  of an array based on a regular expression pattern.
+
+  StringSubset() calls StringPos() to return
+  the matching values.
+#ce ---------------------------------------
+
+Func StringPos($a, $search_pattern)
+
+	$indices = _ArrayFindAll($a, $search_pattern, Default, Default, Default, 3); 3 = regular expression pattern
+
+	Return $indices
+
+EndFunc
+
+Func StringSubset($a, $search_pattern) ; simpler version of _ArrayFilter() from Robert_Array Management.au3.
+
+	$indices = StringPos($a, $search_pattern) ; find the indices
+
+	Local $output[UBound($indices)] = [0] ; initialize loop
+
+	; Insert into $indices the matching values from $a.
+	For $i = 0 to UBound($indices) - 1
+
+		$output[$i] = $a[$indices[$i]]
+
+	Next
+
+	; Return the array.
+	Return $output
+
+EndFunc
+
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Functions: StringChomp(), StringChompV()
+Description: StringChomp() removes all spaces.
+  It is a shorthand for StringStripWS(string, 8).
+
+  StringChompV is a vectorization of StringChomp().
+
+  Inspired by Ruby's chomp method (https://ruby-doc.org/core-2.4.0/String.html#method-i-chomp).
+#ce ---------------------------------------
+
+Func StringChomp($string)
+
+	Return StringStripWS($string, 8)
+
+EndFunc
+
+Func StringChompV($a)
+
+	$output = Map(StringChomp, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+
+	Return $output
+
+EndFunc
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Functions: StringLocate(),
+		   StringLocateV()
+		   StringStart(),
+		   StringEnd()
+
+  Locate the start and end of a specific
+  string.
+
+  These functions are case-sensitive.
+#ce ---------------------------------------
+
+Func StringStart($string, $substring)
+
+	Return StringinStr($string, $substring, 1) ; case-sensitive
+
+EndFunc
+
+Func StringEnd($string, $substring)
+
+  Return StringStart($string, $substring) + StringLen($substring) - 1 ; Need to discount position 0?
+
+EndFunc
+
+Func StringLocate($string, $substring)
+
+	$start = StringStart($string, $substring)
+	$end   = StringEnd($string, $substring)
+	$out   = $start & "," & $end
+
+	Return $out
+
+EndFunc
+
+Func StringLocateV($a, $substring)
+
+	For $i = 0 to UBound($a) - 1
+
+		$a[$i] = StringLocate($a[$i], $substring)
+
+	Next
+
+	Return $a
+
+EndFunc
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Functions: StringRange()
+
+Similar to StringMid(), but the 3rd input
+is not a "count" but a position index.
+#ce ---------------------------------------
+
+Func StringRange($string, $start, $end)
+
+	Return StringMid($string, $start, $end - $start + 1)
+
+EndFunc
+
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Functions: StringTrim(),
+           StringTrimV(),
+		   StringTrim2WS(),
+		   StringTrim2WSV()
+
+StringTrim() removes leading and trailing whitespaces from a string.
+
+StringTrimV() applies StringTrim for each element in an array.
+
+StringTrim2WS() removes double spaces from a string.
+
+StrimgTrim2WSV() applies StringTrim2WS over an array.
+#ce ---------------------------------------
+
+Func StringTrim($string)
+
+	Return StringStripWS($string, 3) ; 3 = removes leading and trailing white space.
+
+EndFunc
+
+Func StringTrimV($a)
+
+	Return Map(StringTrim, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+
+EndFunc
+
+Func StringTrim2WS($string)
+
+	Return StringStripWS($string, 4) ; 4 = removes double or more spaces between words
+
+EndFunc
+
+Func StringTrim2WSV($a)
+
+	Return Map(StringTrim2WS, $a) ; Map is from Robert_Functionals.au3. It applies a function to each element in an array.
+
+EndFunc

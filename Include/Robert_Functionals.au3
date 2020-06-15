@@ -66,7 +66,13 @@ Description: A function that maps a function
 
 Func MapJoin($f, $a)
 
-   Return StringJoin(Map($f, $a))
+   For $i = 0 to UBound($a) - 1
+
+	  $a[$i] = $f($a[$i])
+
+   Next
+
+   Return StringJoin($a)
 
 EndFunc
 
@@ -97,10 +103,10 @@ Description: MapCol() maps a function
 Func MapCol($f, $a) ; $a is assumed to be 2D.
 
    ; Initialize loop
-   Local $x[UBound($a)] = [0]
+   Local $x[UBound($a, 2)] = [0]
 
    ; For each column, execute a function over it.
-   For $i = 0 to UBound($a) - 1
+   For $i = 0 to UBound($a, 2) - 1
 
 	  $x[$i] = $f(_ArrayExtract($a, -1, -1, $i, $i))
 
@@ -133,8 +139,8 @@ EndFunc
 #include "Robert_String Functions.au3"
 #include "Robert_Math.au3"
 Local $aArray[4][4]
-For $i = 0 To 3
-    For $j = 0 To 3
+For $i = 0 To UBound($aArray) - 1
+    For $j = 0 To UBound($aArray, 2) - 1
         $aArray[$i][$j] = $i + $j
     Next
 Next
