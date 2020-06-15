@@ -53,6 +53,12 @@ List of Functions:
 		1. StringTrimV()
 		2. StringTrim2WS() = Removes double or more spaces.
 		3. StringTrim2WSV()
+   28. StringPrefix()
+	  1. StringPrefixV()
+	  2. StringSuffix()
+	  3. StringSuffixV()
+   29. StringClear()
+	  1. StringClearV()
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -948,5 +954,78 @@ EndFunc
 Func StringTrim2WSV($a)
 
 	Return Map(StringTrim2WS, $a) ; Map is from Robert_Functionals.au3. It applies a function to each element in an array.
+
+EndFunc
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Functions: StringPrefix(), String Suffix()
+
+StringPrefix() prefixes a given string to another string.
+
+StringSuffix() appends a string to another string.
+
+The String*FixV() functions are vectorized versions of the above functions.
+#ce ---------------------------------------
+
+Func StringPrefix($string, $prefix)
+
+   Return $prefix & $string
+
+EndFunc
+
+Func StringSuffix($string, $suffix)
+
+   Return $string & $suffix
+
+EndFunc
+
+Func StringPrefixV($a, $prefix)
+
+   For $i = 0 to UBound($a) - 1
+
+	  $a[$i] = $prefix & $a[$i]
+
+   Next
+
+   Return $a
+
+EndFunc
+
+Func StringSuffixV($a, $suffix)
+
+      For $i = 0 to UBound($a) - 1
+
+	  $a[$i] = $a[$i] & $suffix
+
+   Next
+
+   Return $a
+
+EndFunc
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-14
+Function: StringClear()
+
+StringClear() removes all characters from a string.
+
+StringClearV() applies StringClear() to all array elements.
+
+#ce ---------------------------------------
+
+Func StringClear($string)
+
+   Return StringSub($string, ".*", "")
+
+EndFunc
+
+Func StringClearV($a)
+
+   Return Map(StringClear, $a)
 
 EndFunc
