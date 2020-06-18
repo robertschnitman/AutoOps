@@ -23,4 +23,3 @@ Description: A master file of Robert's
 
 ; Robert's variables.
 #include ".\Robert_Dates.au3" ; Objects for common date values.
-#include ".\Robert_MarketHolidays.au3"; To search for market holidays
