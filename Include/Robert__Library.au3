@@ -20,3 +20,7 @@ Description: A master file of Robert's
 #include ".\Robert_Functionals.au3" ; Functions that vectorize other functions.
 #include ".\Robert_Math.au3" ; Math functions.
 #include ".\Robert_String Functions.au3" ; Vectorized string functions
+
+; Robert's variables.
+#include ".\Robert_Dates.au3" ; Objects for common date values.
+#include ".\Robert_MarketHolidays.au3"; To search for market holidays

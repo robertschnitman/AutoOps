@@ -141,7 +141,6 @@ Date: 2020-06-10
 Functions: _ArrayFilter, _ArrayFilter2()
 Description: _ArrayFilter() subsets an array
   based on a search pattern.
-
   _ArrayFilter2() does the same but keeps
   all columns for a 2D array.
 #ce ---------------------------------------
@@ -165,19 +164,12 @@ EndFunc
 
 #cs
 Func _ArrayFilter2($a, $search_pattern, $pattern_type = 3)
-
 	Local $indices = _ArrayFindAll($a, $search_pattern, Default, Default, Default, $pattern_type); patterntype = 3 = regular expression pattern
-
 	; Create an array of of just the indices only
 	Local $output[UBound($indices)] = [0]
-
 	For $i = 0 to UBound($indices) - 1
-
 		_ArrayExtract($a, $i, $i)
-
 	Next
-
 	Return
-
 EndFunc
 #ce

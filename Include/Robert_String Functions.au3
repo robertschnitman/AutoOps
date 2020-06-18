@@ -1014,7 +1014,7 @@ EndFunc
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-14
-Function: StringClear()
+Functions: StringClear(), StringClearV()
 StringClear() removes all characters from a string.
 StringClearV() applies StringClear() to all array elements.
 #ce ---------------------------------------
