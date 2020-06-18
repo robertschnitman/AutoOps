@@ -146,3 +146,43 @@ _ArrayDisplay($z, "MapCol(Sum, $aArray)")
 _ArrayDisplay(ColSums($aArray), "ColSums($aArray)")
 _ArrayDisplay(ColMeans($aArray), "ColMeans($aArray)")
 #ce -- END TEST
+
+; ===
+
+#cs ---
+Author: Robert Schnitman
+Date Created: 2020-06-18
+Function: Map2()
+Description: applies a function
+to 2 arrays in parallel. Useful
+when you want to apply a function
+that accepts 2 inputs.
+#ce ---
+
+Func Map2($f, $array1, $array2)
+
+	Local $x[Ubound($array1)] = [0]
+
+	For $i = 0 to UBound($array1) - 1
+
+		$x[$i] = $f($array1[$i], $array2[$i])
+
+	Next
+
+	Return $x
+
+EndFunc
+
+#cs --- BEGIN TEST
+Func Add($x, $y)
+
+	Return $x + $y
+
+EndFunc
+
+Local $x = [1, 2, 3]
+Local $y = $x
+
+#include <Array.au3>
+_ArrayDisplay(Map2(Add, $x, $y))
+#ce --- END TEST
