@@ -10,6 +10,7 @@ Description: A collection of custom functionals,
    3. MapCol()
 	  1. ColSums()
 	  2. ColMeans()
+   4. Map2()
 #ce ---------------------------------------
 
 ; DEPENDENCY

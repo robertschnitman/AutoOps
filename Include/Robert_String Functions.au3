@@ -589,7 +589,7 @@ Description: Concatenates all elements of an
   .join method.
 #ce ---------------------------------------
 
-Func StringJoin($a, $delimiter = "")
+Func StringJoin($a, $separator = "")
 
    ; initialize loop
    $x = ""
@@ -597,16 +597,16 @@ Func StringJoin($a, $delimiter = "")
    ; self-concatenate until the last element has been concatenated.
    For $i in $a
 
-	  $x &= $i & $delimiter
+	  $x &= $i & $separator
 
    Next
 
-   ; if the last character is a delimiter, remove it.
+   ; if the last character is a separator, remove it.
    $last_char = StringRight($x, 1)
 
-   If $last_char = $delimiter Then
+   If $last_char = $separator Then
 
-	  $y = StringLeft($x, StringLen($x) - 1) ; Take out final delimiter
+	  $y = StringLeft($x, StringLen($x) - 1) ; Take out final separator
 
    Else
 
@@ -698,11 +698,11 @@ Func StringExtract($string, $pattern)
 
 EndFunc
 
-Func StringExtractV($a, $pattern, $delimiter = ",")
+Func StringExtractV($a, $pattern, $separator = ",")
 
 	For $i = 0 to UBound($a) - 1
 
-		$a[$i] = StringJoin(StringExtract($a[$i], $pattern), $delimiter)
+		$a[$i] = StringJoin(StringExtract($a[$i], $pattern), $separator)
 
 	Next
 
