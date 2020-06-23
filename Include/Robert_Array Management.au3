@@ -10,6 +10,7 @@ List of functions:
   4. _ArrayExtractRows()
   5. _ArrayFilter()
   6. _ArrayFilter2() ; IN PROGRESS
+  7. ColSelect()
 #ce ---------------------------------------
 
 ; Dependency
@@ -147,9 +148,10 @@ Description: _ArrayFilter() subsets an array
 
 Func _ArrayFilter($a, $search_pattern, $pattern_type = 3)
 
+	; Find indices
 	Local $indices = _ArrayFindAll($a, $search_pattern, Default, Default, Default, $pattern_type); patterntype = 3 = regular expression pattern
 
-	; Create an array of of just the indices only
+	; Create an array of the elements matching the indices only
 	Local $output[UBound($indices)] = [0]
 
 	For $i = 0 to UBound($indices) - 1
@@ -158,6 +160,7 @@ Func _ArrayFilter($a, $search_pattern, $pattern_type = 3)
 
 	Next
 
+	; Output should be a subset of the given array.
 	Return $output
 
 EndFunc
@@ -173,3 +176,44 @@ Func _ArrayFilter2($a, $search_pattern, $pattern_type = 3)
 	Return
 EndFunc
 #ce
+
+; ===
+
+#cs ---
+Author: Robert Schnitman
+Date: 2020-06-23
+Description: Select a column based on a
+  search pattern of the header row.
+#ce ---
+
+Func ColSelect($a, $search)
+
+	; Extract the header
+	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_ARray Management.au3.
+
+	; Transpose so we can use StringPos() to find the column position for _ArrayExtractCols().
+	_ArrayTranspose($header) ; So that we can use StringPos().
+
+	; Find where a specific column is based on a search pattern.
+	$index = StringPos($headers, $search) ; StringPos() is from Robert_String Functions.au3
+
+	; Select the column based on the index.
+	$col = _ArrayExtractCols($a, $index[0], $index[0]) ; This function is from Robert_Array Management.au3.
+
+	; The output should be a 1D array.
+	Return $col
+
+EndFunc
+
+#cs ---
+#include "P:\Automation\Auto-It files\Include\Robert__Library.au3"
+
+; Initialize array
+$df = 0
+
+_FileReadToArray("./mtcars.csv", $df, 0, ",")
+
+$sub = ColSelect($df, "wt")
+
+_ArrayDisplay($sub)
+#ce ---
