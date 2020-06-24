@@ -10,7 +10,8 @@ List of functions:
   4. _ArrayExtractRows()
   5. _ArrayFilter()
   6. _ArrayFilter2() ; IN PROGRESS
-  7. ColSelect()
+  7. SelectCol()
+  8. SelectCols()
 #ce ---------------------------------------
 
 ; Dependency
@@ -182,11 +183,12 @@ EndFunc
 #cs ---
 Author: Robert Schnitman
 Date: 2020-06-23
+Function: SelectCol()
 Description: Select a column based on a
   search pattern of the header row.
 #ce ---
 
-Func ColSelect($a, $search)
+Func SelectCol($a, $search)
 
 	; Extract the header
 	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_ARray Management.au3.
@@ -195,7 +197,7 @@ Func ColSelect($a, $search)
 	_ArrayTranspose($header) ; So that we can use StringPos().
 
 	; Find where a specific column is based on a search pattern.
-	$index = StringPos($headers, $search) ; StringPos() is from Robert_String Functions.au3
+	$index = StringPos($header, $search) ; StringPos() is from Robert_String Functions.au3
 
 	; Select the column based on the index.
 	$col = _ArrayExtractCols($a, $index[0], $index[0]) ; This function is from Robert_Array Management.au3.
@@ -213,7 +215,70 @@ $df = 0
 
 _FileReadToArray("./mtcars.csv", $df, 0, ",")
 
-$sub = ColSelect($df, "wt")
+$sub = SelectCol($df, "wt")
+
+_ArrayDisplay($sub)
+#ce ---
+
+; ===
+
+#cs ---
+Author: Robert Schnitman
+Date: 2020-06-23
+Function: SelectCols()
+Description: Select multiple columns based on
+  a search pattern.
+#ce ---
+
+Func SelectCols($a, $search)
+
+	; Extract the header
+	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_ARray Management.au3.
+
+	; Transpose so we can use StringPos() to find the column position for _ArrayExtractCols().
+	_ArrayTranspose($header) ; So that we can use StringPos().
+
+	; Find where a specific column is based on a search pattern.
+	$indices = StringPos($header, $search) ; StringPos() is from Robert_String Functions.au3
+
+	; Select columns based on indices.
+	; Initialize subset array
+	Local $subset[UBound($a)] = [0]
+
+	; Make a column in subset for each index found in $indices.
+	For $j = 0 to UBound($indices) - 1
+
+		_ArrayColInsert($subset, $j)
+
+	Next
+
+	; Insert values from $a into the subset
+	For $i = 0 to UBound($a) - 1
+
+		For $j = 0 to UBound($indices) - 1
+
+			$subset[$i][$j] = $a[$i][$indices[$j]] ; FROM array[i, j] to subset[i, j]. Should have same number of rows.
+
+		Next
+
+	Next
+
+	; The output should be a 1D array that excludes the "null" column (i.e. the initialized column.
+
+	Return _ArrayExtractCols($subset, 0, UBound($subset, 2) - 2)
+	;Return $subset
+
+EndFunc
+
+#cs ---
+#include "P:\Automation\Auto-It files\Include\Robert__Library.au3"
+
+; Initialize array
+$df = 0
+
+_FileReadToArray("./mtcars.csv", $df, 0, ",")
+
+$sub = SelectCols($df, "mpg|wt|hp|am")
 
 _ArrayDisplay($sub)
 #ce ---
