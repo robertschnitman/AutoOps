@@ -63,6 +63,7 @@ List of Functions:
 	  3. StringSuffixV()
    29. StringClear() = Removes all characters from a string.
 	  1. StringClearV()
+   30. StringSwitch() = For an array, replaces specified values with another set of specified values.
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -694,6 +695,8 @@ Description: StringExtract() extracts a
 
 Func StringExtract($string, $pattern)
 
+	; 3 = returns array of global matches
+	; https://www.autoitscript.com/autoit3/docs/functions/StringRegExp.htm
 	Return StringRegExp($string, $pattern, 3)
 
 EndFunc
@@ -783,11 +786,14 @@ Func StringPos($a, $search_pattern)
 
 EndFunc
 
-Func StringSubset($a, $search_pattern) ; simpler version of _ArrayFilter() from Robert_Array Management.au3.
+; simpler version of _ArrayFilter() from Robert_Array Management.au3.
+Func StringSubset($a, $search_pattern)
 
-	$indices = StringPos($a, $search_pattern) ; find the indices
+	; find the indices
+	$indices = StringPos($a, $search_pattern)
 
-	Local $output[UBound($indices)] = [0] ; initialize loop
+	; initialize loop
+	Local $output[UBound($indices)] = [0]
 
 	; Insert into $indices the matching values from $a.
 	For $i = 0 to UBound($indices) - 1
@@ -839,9 +845,8 @@ Functions: StringLocate(),
 		   StringStartV()
 		   StringEnd(),
 		   StringEndV()
-  Locate the start and end of a specific
-  string.
-  These functions are case-sensitive.
+Description: Locate the start and end of a specific
+  string. These functions are case-sensitive.
 #ce ---------------------------------------
 
 ; StringStart()
@@ -911,7 +916,7 @@ EndFunc
 Author: Robert Schnitman
 Date: 2020-06-14
 Functions: StringRange()
-Similar to StringMid(), but the 3rd input
+Description: Similar to StringMid(), but the 3rd input
 is not a "count" but a position index.
 #ce ---------------------------------------
 
@@ -931,10 +936,12 @@ Functions: StringTrim(),
            StringTrimV(),
 		   StringTrim2WS(),
 		   StringTrim2WSV()
-StringTrim() removes leading and trailing whitespaces from a string.
-StringTrimV() applies StringTrim for each element in an array.
-StringTrim2WS() removes double spaces from a string.
-StrimgTrim2WSV() applies StringTrim2WS over an array.
+
+Description:
+	StringTrim() removes leading and trailing whitespaces from a string.
+	StringTrimV() applies StringTrim for each element in an array.
+	StringTrim2WS() removes double spaces from a string.
+	StrimgTrim2WSV() applies StringTrim2WS over an array.
 #ce ---------------------------------------
 
 Func StringTrim($string)
@@ -1011,11 +1018,13 @@ Func StringSuffixV($a, $suffix)
 
 EndFunc
 
+; ===
+
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-14
 Functions: StringClear(), StringClearV()
-StringClear() removes all characters from a string.
+Description: StringClear() removes all characters from a string.
 StringClearV() applies StringClear() to all array elements.
 #ce ---------------------------------------
 
@@ -1030,3 +1039,43 @@ Func StringClearV($a)
    Return Map(StringClear, $a)
 
 EndFunc
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-26
+Function: StringSwitch()
+Description: For an array, replaces specified values
+  with another set of specified values.
+
+  Inspired by recode() from the dm R package
+  (https://rs-dm.netlify.app/recode.html).
+#ce ---------------------------------------
+
+Func StringSwitch($a, $v_initial, $v_new)
+
+	; Find each initial element and replace it with the new value.
+	For $i = 0 to UBound($v_initial) - 1
+
+		$a = StringReplaceV($a, $v_initial[$i], $v_new[$i])
+
+	Next
+
+	; The output array size should equal the input array size.
+	Return $a
+
+
+EndFunc
+
+#cs
+; EXAMPLE
+Local $x[] = ['1', '2', '3', '4', _
+              '1', '2', '3', '4']
+
+Local $search[]  = ['2', '4']
+Local $replace[] = ["Japanese", "Thai"]
+
+_ArrayDisplay(StringSwitch($x, $search, $replace))
+
+#ce
