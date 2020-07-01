@@ -24,7 +24,7 @@ List of Functions:
 		1. StringPaste()   = Shorthand for StringConcatenateV().
    8. StringRegExpReplaceV() = Replace a string based on a regular expresion.
 		1. StringSub()       = Replace a string based on a regular expression (shorthand of StringRegExpReplace()).
-		2. StringSubV()      = Replace each array element with another string (shorthand of StringRegExpReplaceV()).
+		2. StringSubV()      = Replace each array element with another string based on a regular expression (shorthand of StringRegExpReplaceV()).
 		3. StringRemove()    = Removes a specified string from a larger string.
 		4. StringRemoveV()   = Applies StringRemove() to each element in an array.
    9. StringInStrV()
@@ -64,6 +64,8 @@ List of Functions:
    29. StringClear() = Removes all characters from a string.
 	  1. StringClearV()
    30. StringSwitch() = For an array, replaces specified values with another set of specified values.
+   31. StringSwitchSub() = Replace specified values with another set of specified values based on a regular expression.
+   32. StringInsertV() = Insert a string at a specified position for each element in an array.
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -1079,3 +1081,61 @@ Local $replace[] = ["Japanese", "Thai"]
 _ArrayDisplay(StringSwitch($x, $search, $replace))
 
 #ce
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-06-26
+Function: StringSwitchSub()
+Description: For an array, replaces specified values
+  with another set of specified values based on a regular expression.
+
+  Inspired by recode() from the dm R package
+  (https://rs-dm.netlify.app/recode.html).
+#ce ---------------------------------------
+
+Func StringSwitchSub($a, $v_initial, $v_new)
+
+	; Find each initial element and replace it with the new value.
+	For $i = 0 to UBound($v_initial) - 1
+
+		$a = StringSubV($a, $v_initial[$i], $v_new[$i])
+
+	Next
+
+	; The output array size should equal the input array size.
+	Return $a
+
+
+EndFunc
+
+; ===
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-07-01
+Function: StringInsertV()
+Description: Insert a string at a specified
+  position for each element in an array.
+#ce ---------------------------------------
+
+Func StringInsertV($a, $string_insert, $position)
+
+	For $i = 0 to Ubound($a) - 1
+
+		$a[$i] = _StringInsert($a[$i], $string_insert, $position)
+
+	Next
+
+	Return $a
+
+EndFunc
+
+#cs --- EXAMPLE
+#include <Array.au3>
+#include <String.au3>
+
+Local $array = ["robert", "nathan", "faith"]
+
+_ArrayDisplay(StringInsertV($array, ",", 3))
+#ce ---

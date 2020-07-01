@@ -233,10 +233,10 @@ Description: Select multiple columns based on
 Func SelectCols($a, $search)
 
 	; Extract the header
-	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_ARray Management.au3.
+	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_Array Management.au3.
 
 	; Transpose so we can use StringPos() to find the column position for _ArrayExtractCols().
-	_ArrayTranspose($header) ; So that we can use StringPos().
+	_ArrayTranspose($header)
 
 	; Find where a specific column is based on a search pattern.
 	$indices = StringPos($header, $search) ; StringPos() is from Robert_String Functions.au3
@@ -257,16 +257,17 @@ Func SelectCols($a, $search)
 
 		For $j = 0 to UBound($indices) - 1
 
-			$subset[$i][$j] = $a[$i][$indices[$j]] ; FROM array[i, j] to subset[i, j]. Should have same number of rows.
+			; FROM array[i, j] to subset[i, j].
+			; Should have same number of rows.
+			$subset[$i][$j] = $a[$i][$indices[$j]]
 
 		Next
 
 	Next
 
-	; The output should be a 1D array that excludes the "null" column (i.e. the initialized column.
-
-	Return _ArrayExtractCols($subset, 0, UBound($subset, 2) - 2)
-	;Return $subset
+	; The output should be a 1D array that excludes the "null" column (i.e. the initialized column).
+	; Last column index is UBound($subset) - 1, so we subtract 1 more to remove the initialized column.
+	Return _ArrayExtractCols($subset, 0, UBound($subset, 2) - 2); _ArrayExtractCols is from Robert_Array Management.au3.
 
 EndFunc
 

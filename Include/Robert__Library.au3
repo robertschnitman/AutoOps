@@ -12,6 +12,7 @@ Description: A master file of Robert's
 #include <Date.au3>
 #include <Array.au3>
 #include <File.au3>
+#include <String.au3>
 #include <StringConstants.au3>
 
 ; Robert's functions.
