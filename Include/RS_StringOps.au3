@@ -69,7 +69,7 @@ List of Functions:
 #ce ---------------------------------------
 
 ; DEPENDENCIES
-;#include ".\Robert__Library.au3" ; Load this in a separate tab to test the functions below.
+;#include ".\RS__Library.au3" ; Load this in a separate tab to test the functions below.
 #include <StringConstants.au3>
 
 ;=====================================================
@@ -252,7 +252,7 @@ Description: A vectorization of StringLen().
 Func StringLenV($a) ; array, character to split by
    ; For each element, search for the character(s) to split by.
 
-   $x = Map(StringLen, $a); Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(StringLen, $a); Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x ; always use the Return command to return a value when creating a function.
 
@@ -260,10 +260,10 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-#include ".\Robert_Array Management.au3" ; to load _ArrayColInsert2()
+#include ".\RS_ArrayOps.au3" ; to load _ArrayColInsert2()
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 ; Get the lengths of each element from $my_array.
-$lens = StringLenV($my_array) ; from Robert_String Functions.au3
+$lens = StringLenV($my_array) ; from RS_StringOps.au3
 ; Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
 $my_array2 = _ArrayColInsert2($my_array, 1, $lens)
 _ArrayDisplay($my_array2)
@@ -403,7 +403,7 @@ Description: A vectorization of StringStripCR().
 
 Func StringStripCRV($a)
 
-   $x = Map(StringStripCR, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(StringStripCR, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -411,7 +411,7 @@ EndFunc
 
 #cs -- TEST
 #include <Array.au3>
-#include ".\Robert_Functionals.au3"
+#include ".\RS_Functionals.au3"
 Local $my_array[3] = ["hi" & Chr(13) & "robert", "hi" & Chr(13) & "nathan", "hi" & Chr(13) & "faith"]
 $test = StringStripCRV($my_array)
 _ArrayDisplay($test)
@@ -460,7 +460,7 @@ Description: A vectorization of StringIsSpace().
 
 Func StringIsSpaceV($a)
 
-   $x = Map(StringIsSpace, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(StringIsSpace, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -468,7 +468,7 @@ EndFunc
 
 #cs -- TEST
 #include <Array.au3>
-#include ".\Robert_Functionals.au3"
+#include ".\RS_Functionals.au3"
 Local $my_array[4] = [Chr(13), "", "	", "hi"]
 $test = StringIsSpaceV($my_array)
 _ArrayDisplay($test)
@@ -566,7 +566,7 @@ Description: A vectorization of ZeroFlagSSN().
 
 Func ZeroFlagSSNV($a)
 
-   $x = Map(ZeroFlagSSN, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(ZeroFlagSSN, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -574,7 +574,7 @@ EndFunc
 
 #cs -- TEST
 #include <Array.au3>
-#include "Robert_Functionals.au3"
+#include "RS_Functionals.au3"
 Local $test[3] = [700, 930, 1625]
 _ArrayDisplay(ZeroFlagSSNV($test))
 #ce
@@ -762,7 +762,7 @@ Func StringDupV($a, $times)
 EndFunc
 
 #cs -- TEST
-#include "I:\SAI\Auto-it Files\Include\Robert__Library.au3"
+#include "I:\SAI\Auto-it Files\Include\RS__Library.au3"
 $s = "robert"
 $test = StringDup($s, 5)
 MsgBox(1, 'test', $test)
@@ -788,7 +788,7 @@ Func StringPos($a, $search_pattern)
 
 EndFunc
 
-; simpler version of _ArrayFilter() from Robert_Array Management.au3.
+; simpler version of _ArrayFilter() from RS_ArrayOps.au3.
 Func StringSubset($a, $search_pattern)
 
 	; find the indices
@@ -830,7 +830,7 @@ EndFunc
 
 Func StringChompV($a)
 
-	$output = Map(StringChomp, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+	$output = Map(StringChomp, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
 	Return $output
 
@@ -954,7 +954,7 @@ EndFunc
 
 Func StringTrimV($a)
 
-	Return Map(StringTrim, $a) ; Map() is from Robert_Functionals.au3. It applies a function to each element in an array.
+	Return Map(StringTrim, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
 EndFunc
 
@@ -966,7 +966,7 @@ EndFunc
 
 Func StringTrim2WSV($a)
 
-	Return Map(StringTrim2WS, $a) ; Map is from Robert_Functionals.au3. It applies a function to each element in an array.
+	Return Map(StringTrim2WS, $a) ; Map is from RS_Functionals.au3. It applies a function to each element in an array.
 
 EndFunc
 

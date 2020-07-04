@@ -11,7 +11,7 @@ List of Functions:
 ; The functions in this file depend on the following scripts.
 #include <Array.au3> ; for managing arrays.
 #include <File.au3> ; For managing files.
-; #include "I:\SAI\Auto-It files\Include\Robert_String Functions.au3"; Causes duplicate function error?
+; #include "I:\SAI\Auto-It files\Include\RS_StringOps.au3"; Causes duplicate function error?
 
 ;================================================
 
@@ -78,7 +78,7 @@ Func FileRename_All($dir, $file_pattern, $string_old, $string_new)
 	  $my_files  = _FileListToArray($dir, $file_pattern, 1);
 
 	  ;; Use the new file naming scheme.
-	  ;;; StringReplaceV() is from "I:\SAI\Auto-It files\Include\Robert_String Functions.au3"
+	  ;;; StringReplaceV() is from "I:\SAI\Auto-It files\Include\RS_StringOps.au3"
 	  $new_names = StringReplaceV($my_files, $string_old, $string_new)
 
 	  ; For each of the old names, rename them to be the new names.
@@ -96,7 +96,7 @@ EndFunc
 
 #cs -- TEST BEGIN
 ; load the StringReplaceV() function that's required for FileRename_All() to run
-#include ".\Robert_String Functions.au3"
+#include ".\RS_StringOps.au3"
 $my_dir = 'I:\Robert\AutoIt\Tests\RenameFiles\'
 FileRename_All($my_dir, 'RenameMe*.txt', 'RenameMe', 'NEWNAME')
 ;FileRename_All($my_dir, 'NEWNAME*.txt', 'NEWNAME', 'RenameMe')

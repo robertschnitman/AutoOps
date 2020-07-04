@@ -78,7 +78,7 @@ EndFunc
 
 
 #cs -- BEGIN TEST
-#include "Robert_String Functions.au3"
+#include "RS_String Functions.au3"
 Local $my_array[] = [4, 9, 16, 25]
 $x = MapJoin(Sqrt, $my_array)
 MsgBox(1, 'test', $x)
@@ -94,7 +94,7 @@ Description: MapCol() maps a function
   to each column in an array.
   ColSums() applies Sum() to each column.
   ColMeans() applies Mean() to each column.
-  Sum() and Mean() are from Robert_Math.au3.
+  Sum() and Mean() are from RS_Math.au3.
 #ce ---------------------------------------
 
 Func MapCol($f, $a) ; $a is assumed to be 2D.
@@ -133,8 +133,8 @@ EndFunc
 
 #cs -- BEGIN TEST
 #include <Array.au3>
-#include "Robert_String Functions.au3"
-#include "Robert_Math.au3"
+#include "RS_String Functions.au3"
+#include "RS_Math.au3"
 Local $aArray[4][4]
 For $i = 0 To UBound($aArray) - 1
     For $j = 0 To UBound($aArray, 2) - 1

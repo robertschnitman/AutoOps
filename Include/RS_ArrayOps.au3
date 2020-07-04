@@ -48,10 +48,10 @@ EndFunc
 
 
 #cs -- TEST
-#include "I.\Robert_String Functions.au3" ; to load StringLenV().
+#include "I.\RS_StringOps.au3" ; to load StringLenV().
 Local $my_array[3] = ["hi_robert", "hi_nathan", "hi_faith"]
 ; Get the lengths of each element from $my_array.
-$lens = StringLenV($my_array) ; from Robert_String Functions.au3
+$lens = StringLenV($my_array) ; from RS_StringOps.au3
 ; In $my_array, insert $lens into the column index 1
 ; 	Have to create a new object because _ArrayColInsert2() is immutable (i.e., it does not auto-update the reference array).
 $my_array2 = _ArrayColInsert2($my_array, $lens, 1)
@@ -191,16 +191,16 @@ Description: Select a column based on a
 Func SelectCol($a, $search)
 
 	; Extract the header
-	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_ARray Management.au3.
+	$header = _ArrayExtractRows($a, 0, 0); This function is from RS_ArrayOps.au3.
 
 	; Transpose so we can use StringPos() to find the column position for _ArrayExtractCols().
 	_ArrayTranspose($header) ; So that we can use StringPos().
 
 	; Find where a specific column is based on a search pattern.
-	$index = StringPos($header, $search) ; StringPos() is from Robert_String Functions.au3
+	$index = StringPos($header, $search) ; StringPos() is from RS_StringOps.au3
 
 	; Select the column based on the index.
-	$col = _ArrayExtractCols($a, $index[0], $index[0]) ; This function is from Robert_Array Management.au3.
+	$col = _ArrayExtractCols($a, $index[0], $index[0]) ; This function is from RS_ArrayOps.au3.
 
 	; The output should be a 1D array.
 	Return $col
@@ -208,7 +208,7 @@ Func SelectCol($a, $search)
 EndFunc
 
 #cs ---
-#include "P:\Automation\Auto-It files\Include\Robert__Library.au3"
+#include "P:\Automation\Auto-It files\Include\RS__Library.au3"
 
 ; Initialize array
 $df = 0
@@ -233,13 +233,13 @@ Description: Select multiple columns based on
 Func SelectCols($a, $search)
 
 	; Extract the header
-	$header = _ArrayExtractRows($a, 0, 0); This function is from Robert_Array Management.au3.
+	$header = _ArrayExtractRows($a, 0, 0); This function is from RS_ArrayOps.au3.
 
 	; Transpose so we can use StringPos() to find the column position for _ArrayExtractCols().
 	_ArrayTranspose($header)
 
 	; Find where a specific column is based on a search pattern.
-	$indices = StringPos($header, $search) ; StringPos() is from Robert_String Functions.au3
+	$indices = StringPos($header, $search) ; StringPos() is from RS_StringOps.au3
 
 	; Select columns based on indices.
 	; Initialize subset array
@@ -267,12 +267,12 @@ Func SelectCols($a, $search)
 
 	; The output should be a 1D array that excludes the "null" column (i.e. the initialized column).
 	; Last column index is UBound($subset) - 1, so we subtract 1 more to remove the initialized column.
-	Return _ArrayExtractCols($subset, 0, UBound($subset, 2) - 2); _ArrayExtractCols is from Robert_Array Management.au3.
+	Return _ArrayExtractCols($subset, 0, UBound($subset, 2) - 2); _ArrayExtractCols is from RS_ArrayOps.au3.
 
 EndFunc
 
 #cs ---
-#include "P:\Automation\Auto-It files\Include\Robert__Library.au3"
+#include "P:\Automation\Auto-It files\Include\RS__Library.au3"
 
 ; Initialize array
 $df = 0
