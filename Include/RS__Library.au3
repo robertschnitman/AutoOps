@@ -1,7 +1,7 @@
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date Created: 2020-06-05
-Date Modified: 2020-06-08
+Date Modified: 2020-07-04
 Description: A master file of Robert's
   created functions and other items for
   easier accessing/referencing.
@@ -16,11 +16,11 @@ Description: A master file of Robert's
 #include <StringConstants.au3>
 
 ; Robert's functions.
-#include ".\Robert_Array Management.au3" ; Functions for managing arrays.
-#include ".\Robert_File Management.au3" ; Functions for managing files.
-#include ".\Robert_Functionals.au3" ; Functions that vectorize other functions.
-#include ".\Robert_Math.au3" ; Math functions.
-#include ".\Robert_String Functions.au3" ; Vectorized string functions
+#include ".\RS_ArrayOps.au3" ; Functions for managing arrays.
+#include ".\RS_FileOps.au3" ; Functions for managing files.
+#include ".\RS_Functionals.au3" ; Functions that vectorize other functions.
+#include ".\RS_Math.au3" ; Math functions.
+#include ".\RS_StringOps.au3" ; Vectorized string functions
 
 ; Robert's variables.
-#include ".\Robert_Dates.au3" ; Objects for common date values.
+#include ".\RS_Dates.au3" ; Objects for common date values.
