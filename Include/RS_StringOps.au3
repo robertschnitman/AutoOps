@@ -66,6 +66,11 @@ List of Functions:
    30. StringSwitch() = For an array, replaces specified values with another set of specified values.
    31. StringSwitchSub() = Replace specified values with another set of specified values based on a regular expression.
    32. StringInsertV() = Insert a string at a specified position for each element in an array.
+   33. grep() = synonym for StringSubset()
+	  1. grepl() = synonym for StringDetect()
+	  2. greplv() = vectorization of grepl(); synonym for StringDetectV)_.
+	  3. gsub() = synonym of StringSub()
+	  4. gsubv() = synonym of StringSubV().
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -84,16 +89,16 @@ Description: A vectorization of StringReplace().
   An attempted replication of gsub() from R.
 #ce ---------------------------------------
 
-Func StringReplaceV($a, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
+Func StringReplaceV($array, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
 
    ; For each element, search for the character(s) to replace and then replace it with the desired character(s).
-   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+   For $i = 0 to Ubound($array) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
 
-	  $a[$i] = StringReplace($a[$i], $search, $replace)
+	  $array[$i] = StringReplace($array[$i], $search, $replace)
 
    Next
 
-   Return $a ; always use the Return command to return a value when creating a function.
+   Return $array ; always use the Return command to return a value when creating a function.
 
 EndFunc
 
@@ -117,16 +122,16 @@ Description: A vectorization of StringSplit().
   *WARNING: The output is an array of arrays.
 #ce ---------------------------------------
 
-Func StringSplitV($a, $split) ; array, character to split by
+Func StringSplitV($array, $split) ; array, character to split by
 
    ; For each element, search for the character(s) to split by.
-   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+   For $i = 0 to Ubound($array) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
 
-	  $a[$i] = StringSplit($a[$i], $split)
+	  $array[$i] = StringSplit($array[$i], $split)
 
    Next
 
-   Return $a ; always use the Return command to return a value when creating a function.
+   Return $array ; always use the Return command to return a value when creating a function.
 
 EndFunc
 
@@ -151,16 +156,16 @@ Description: A vectorization of StringMid().
   every element in an array (for 1 dimension).
 #ce ---------------------------------------
 
-Func StringMidV($a, $start, $count = -1) ; array, character to split by
+Func StringMidV($array, $start, $count = -1) ; array, character to split by
 
    ; For each element, search for the character(s) to split by.
-   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+   For $i = 0 to Ubound($array) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
 
-	  $a[$i] = StringMid($a[$i], $start, $count)
+	  $array[$i] = StringMid($array[$i], $start, $count)
 
    Next
 
-   Return $a ; always use the Return command to return a value when creating a function.
+   Return $array ; always use the Return command to return a value when creating a function.
 
 EndFunc
 
@@ -184,16 +189,16 @@ Description: A vectorization of StringLeft().
   every element in an array (for 1 dimension).
 #ce ---------------------------------------
 
-Func StringLeftV($a, $count) ; array, character to split by
+Func StringLeftV($array, $count) ; array, character to split by
 
    ; For each element, search for the character(s) to split by.
-   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+   For $i = 0 to Ubound($array) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
 
-	  $a[$i] = StringLeft($a[$i], $count)
+	  $array[$i] = StringLeft($array[$i], $count)
 
    Next
 
-   Return $a ; always use the Return command to return a value when creating a function.
+   Return $array ; always use the Return command to return a value when creating a function.
 
 EndFunc
 
@@ -216,16 +221,16 @@ Description: A vectorization of StringRight().
   every element in an array (for 1 dimension).
 #ce ---------------------------------------
 
-Func StringRightV($a, $count) ; array, character to split by
+Func StringRightV($array, $count) ; array, character to split by
 
    ; For each element, search for the character(s) to split by.
-   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+   For $i = 0 to Ubound($array) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
 
-	  $a[$i] = StringRight($a[$i], $count)
+	  $array[$i] = StringRight($array[$i], $count)
 
    Next
 
-   Return $a ; always use the Return command to return a value when creating a function.
+   Return $array ; always use the Return command to return a value when creating a function.
 
 EndFunc
 
@@ -249,10 +254,10 @@ Description: A vectorization of StringLen().
   every element in an array (for 1 dimension).
 #ce ---------------------------------------
 
-Func StringLenV($a) ; array, character to split by
+Func StringLenV($array) ; array, character to split by
    ; For each element, search for the character(s) to split by.
 
-   $x = Map(StringLen, $a); Map() is from RS_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(StringLen, $array); Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x ; always use the Return command to return a value when creating a function.
 
@@ -280,21 +285,21 @@ Description: Concatenate elements for each element
   StringPaste() is a shorthand for StringConcatenateV().
 #ce ---------------------------------------
 
-Func StringConcatenateV($a, $concat)
+Func StringConcatenateV($array, $concat)
 
-   For $i = 0 to UBound($a) - 1
+   For $i = 0 to UBound($array) - 1
 
-	  $a[$i] = $a[$i] & $concat
+	  $array[$i] = $array[$i] & $concat
 
    Next
 
-   Return $a
+   Return $array
 
 EndFunc
 
-Func StringPaste($a, $concat)
+Func StringPaste($array, $concat)
 
-	Return StringConcatenateV($a, $concat)
+	Return StringConcatenateV($array, $concat)
 
 EndFunc
 
@@ -317,16 +322,16 @@ Description: A vectorization of StringRegExpReplace().
   StringRemoveV() is a vectorization of StringRemove().
 #ce ---------------------------------------
 
-Func StringRegExpReplaceV($a, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
+Func StringRegExpReplaceV($array, $search, $replace) ; array, character(s) to search for, character(s) to replace the search query.
 
    ; For each element, search for the character(s) to replace and then replace it with the desired character(s).
-   For $i = 0 to Ubound($a) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
+   For $i = 0 to Ubound($array) - 1 ; AutoIt uses 0-based indexing, so the maximum index value is the number of elements minus 1.
 
-	  $a[$i] = StringRegExpReplace($a[$i], $search, $replace)
+	  $array[$i] = StringRegExpReplace($array[$i], $search, $replace)
 
    Next
 
-   Return $a ; always use the Return command to return a value when creating a function.
+   Return $array ; always use the Return command to return a value when creating a function.
 
 EndFunc
 
@@ -336,9 +341,9 @@ Func StringSub($string, $search, $replace)
 
 EndFunc
 
-Func StringSubV($a, $search, $replace)
+Func StringSubV($array, $search, $replace)
 
-	$x = StringRegExpReplaceV($a, $search, $replace)
+	$x = StringRegExpReplaceV($array, $search, $replace)
 
 	Return $x
 
@@ -350,15 +355,15 @@ Func StringRemove($string, $string_to_remove)
 
 EndFunc
 
-Func StringRemoveV($a, $string_to_remove)
+Func StringRemoveV($array, $string_to_remove)
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringRemove($a[$i], $string_to_remove)
+		$array[$i] = StringRemove($array[$i], $string_to_remove)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -373,15 +378,15 @@ Description: A vectorization of StringInStr().
   not used.
 #ce ---------------------------------------
 
-Func StringInStrV($a, $substring, $casesense = 0, $occurrence = 1, $start = 1)
+Func StringInStrV($array, $substring, $casesense = 0, $occurrence = 1, $start = 1)
 
-   For $i = 0 to Ubound($a) - 1
+   For $i = 0 to Ubound($array) - 1
 
-	  $a[$i] = StringInStr($a[$i], $substring, $casesense, $occurrence, $start)
+	  $array[$i] = StringInStr($array[$i], $substring, $casesense, $occurrence, $start)
 
    Next
 
-   Return $a
+   Return $array
 
 EndFunc
 
@@ -401,9 +406,9 @@ Function: StringStripCRV()
 Description: A vectorization of StringStripCR().
 #ce ---------------------------------------
 
-Func StringStripCRV($a)
+Func StringStripCRV($array)
 
-   $x = Map(StringStripCR, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(StringStripCR, $array) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -428,15 +433,15 @@ Description: A vectorization of StringStripWS().
 
 ; $Str_STRIPALL is from StringConstants.au3
 ;   https://www.autoitscript.com/autoit3/docs/functions/StringStripWS.htm
-Func StringStripWSV($a, $flag = $STR_STRIPALL)
+Func StringStripWSV($array, $flag = $STR_STRIPALL)
 
-   For $i = 0 to Ubound($a) - 1
+   For $i = 0 to Ubound($array) - 1
 
-	  $a[$i] = StringStripWS($a[$i], $flag)
+	  $array[$i] = StringStripWS($array[$i], $flag)
 
    Next
 
-   Return $a
+   Return $array
 
 
 EndFunc
@@ -458,9 +463,9 @@ Function: StringIsSpaceV()
 Description: A vectorization of StringIsSpace().
 #ce ---------------------------------------
 
-Func StringIsSpaceV($a)
+Func StringIsSpaceV($array)
 
-   $x = Map(StringIsSpace, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(StringIsSpace, $array) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -509,17 +514,17 @@ Function: ZeroFlagV()
 Description: A vectorization of ZeroFlag().
 #ce ---------------------------------------
 
-Func ZeroFlagV($a, $width)
+Func ZeroFlagV($array, $width)
 
-   For $i = 0 to UBound($a) - 1
+   For $i = 0 to UBound($array) - 1
 
 	  ; Prefix a 0 to the string until a width of $width has been reached.
 	  ; https://www.autoitscript.com/autoit3/docs/functions/StringFormat.htm
-	  $a[$i] = StringFormat("%0" & $width & "s", $a[$i])
+	  $array[$i] = StringFormat("%0" & $width & "s", $array[$i])
 
    Next
 
-   Return $a
+   Return $array
 
 EndFunc
 
@@ -564,9 +569,9 @@ Function: ZeroFlagSSNV()
 Description: A vectorization of ZeroFlagSSN().
 #ce ---------------------------------------
 
-Func ZeroFlagSSNV($a)
+Func ZeroFlagSSNV($array)
 
-   $x = Map(ZeroFlagSSN, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
+   $x = Map(ZeroFlagSSN, $array) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
    Return $x
 
@@ -592,13 +597,13 @@ Description: Concatenates all elements of an
   .join method.
 #ce ---------------------------------------
 
-Func StringJoin($a, $separator = "")
+Func StringJoin($array, $separator = "")
 
    ; initialize loop
    $x = ""
 
    ; self-concatenate until the last element has been concatenated.
-   For $i in $a
+   For $i in $array
 
 	  $x &= $i & $separator
 
@@ -662,15 +667,15 @@ $test_me = StringDetect($str, "ABC|CBA|XYZ")
 MsgBox(1, "test", $test_me & ": " & $str & " is in 'ABC|CBA|XYZ'")
 #ce --
 
-Func StringDetectV($a, $pattern) ; $a is an array
+Func StringDetectV($array, $pattern) ; $a is an array
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringDetect($a[$i], $pattern)
+		$array[$i] = StringDetect($array[$i], $pattern)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -703,15 +708,15 @@ Func StringExtract($string, $pattern)
 
 EndFunc
 
-Func StringExtractV($a, $pattern, $separator = ",")
+Func StringExtractV($array, $pattern, $separator = ",")
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringJoin(StringExtract($a[$i], $pattern), $separator)
+		$array[$i] = StringJoin(StringExtract($array[$i], $pattern), $separator)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -737,27 +742,27 @@ Description: StringDup() repeats a string
 
 Func StringDup($string, $times)
 
-	Local $a[$times] = [0]
+	Local $array[$times] = [0]
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = $string
+		$array[$i] = $string
 
 	Next
 
-	Return StringJoin($a)
+	Return StringJoin($array)
 
 EndFunc
 
-Func StringDupV($a, $times)
+Func StringDupV($array, $times)
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringDup($a[$i], $times)
+		$array[$i] = StringDup($array[$i], $times)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -780,19 +785,19 @@ Description: StringPos() finds specific indices
   the matching values.
 #ce ---------------------------------------
 
-Func StringPos($a, $search_pattern)
+Func StringPos($array, $search_pattern)
 
-	$indices = _ArrayFindAll($a, $search_pattern, Default, Default, Default, 3); 3 = regular expression pattern
+	$indices = _ArrayFindAll($array, $search_pattern, Default, Default, Default, 3); 3 = regular expression pattern
 
 	Return $indices
 
 EndFunc
 
 ; simpler version of _ArrayFilter() from RS_ArrayOps.au3.
-Func StringSubset($a, $search_pattern)
+Func StringSubset($array, $search_pattern)
 
 	; find the indices
-	$indices = StringPos($a, $search_pattern)
+	$indices = StringPos($array, $search_pattern)
 
 	; initialize loop
 	Local $output[UBound($indices)] = [0]
@@ -800,7 +805,7 @@ Func StringSubset($a, $search_pattern)
 	; Insert into $indices the matching values from $a.
 	For $i = 0 to UBound($indices) - 1
 
-		$output[$i] = $a[$indices[$i]]
+		$output[$i] = $array[$indices[$i]]
 
 	Next
 
@@ -828,9 +833,9 @@ Func StringChomp($string)
 
 EndFunc
 
-Func StringChompV($a)
+Func StringChompV($array)
 
-	$output = Map(StringChomp, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
+	$output = Map(StringChomp, $array) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
 	Return $output
 
@@ -858,15 +863,15 @@ Func StringStart($string, $substring)
 
 EndFunc
 
-Func StringStartV($a, $substring)
+Func StringStartV($array, $substring)
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringStart($a[$i], $substring)
+		$array[$i] = StringStart($array[$i], $substring)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -877,15 +882,15 @@ Func StringEnd($string, $substring)
 
 EndFunc
 
-Func StringEndV($a, $substring)
+Func StringEndV($array, $substring)
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringEnd($a[$i], $substring)
+		$array[$i] = StringEnd($array[$i], $substring)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -900,15 +905,15 @@ Func StringLocate($string, $substring)
 
 EndFunc
 
-Func StringLocateV($a, $substring)
+Func StringLocateV($array, $substring)
 
-	For $i = 0 to UBound($a) - 1
+	For $i = 0 to UBound($array) - 1
 
-		$a[$i] = StringLocate($a[$i], $substring)
+		$array[$i] = StringLocate($array[$i], $substring)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -952,9 +957,9 @@ Func StringTrim($string)
 
 EndFunc
 
-Func StringTrimV($a)
+Func StringTrimV($array)
 
-	Return Map(StringTrim, $a) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
+	Return Map(StringTrim, $array) ; Map() is from RS_Functionals.au3. It applies a function to each element in an array.
 
 EndFunc
 
@@ -964,9 +969,9 @@ Func StringTrim2WS($string)
 
 EndFunc
 
-Func StringTrim2WSV($a)
+Func StringTrim2WSV($array)
 
-	Return Map(StringTrim2WS, $a) ; Map is from RS_Functionals.au3. It applies a function to each element in an array.
+	Return Map(StringTrim2WS, $array) ; Map is from RS_Functionals.au3. It applies a function to each element in an array.
 
 EndFunc
 
@@ -996,27 +1001,27 @@ Func StringSuffix($string, $suffix)
 
 EndFunc
 
-Func StringPrefixV($a, $prefix)
+Func StringPrefixV($array, $prefix)
 
-   For $i = 0 to UBound($a) - 1
+   For $i = 0 to UBound($array) - 1
 
-	  $a[$i] = $prefix & $a[$i]
+	  $array[$i] = $prefix & $array[$i]
 
    Next
 
-   Return $a
+   Return $array
 
 EndFunc
 
-Func StringSuffixV($a, $suffix)
+Func StringSuffixV($array, $suffix)
 
-      For $i = 0 to UBound($a) - 1
+      For $i = 0 to UBound($array) - 1
 
-	  $a[$i] = $a[$i] & $suffix
+	  $array[$i] = $array[$i] & $suffix
 
    Next
 
-   Return $a
+   Return $array
 
 EndFunc
 
@@ -1036,9 +1041,9 @@ Func StringClear($string)
 
 EndFunc
 
-Func StringClearV($a)
+Func StringClearV($array)
 
-   Return Map(StringClear, $a)
+   Return Map(StringClear, $array)
 
 EndFunc
 
@@ -1055,17 +1060,17 @@ Description: For an array, replaces specified values
   (https://rs-dm.netlify.app/recode.html).
 #ce ---------------------------------------
 
-Func StringSwitch($a, $v_initial, $v_new)
+Func StringSwitch($array, $v_initial, $v_new)
 
 	; Find each initial element and replace it with the new value.
 	For $i = 0 to UBound($v_initial) - 1
 
-		$a = StringReplaceV($a, $v_initial[$i], $v_new[$i])
+		$array = StringReplaceV($array, $v_initial[$i], $v_new[$i])
 
 	Next
 
 	; The output array size should equal the input array size.
-	Return $a
+	Return $array
 
 
 EndFunc
@@ -1095,17 +1100,17 @@ Description: For an array, replaces specified values
   (https://rs-dm.netlify.app/recode.html).
 #ce ---------------------------------------
 
-Func StringSwitchSub($a, $v_initial, $v_new)
+Func StringSwitchSub($array, $v_initial, $v_new)
 
 	; Find each initial element and replace it with the new value.
 	For $i = 0 to UBound($v_initial) - 1
 
-		$a = StringSubV($a, $v_initial[$i], $v_new[$i])
+		$array = StringSubV($array, $v_initial[$i], $v_new[$i])
 
 	Next
 
 	; The output array size should equal the input array size.
-	Return $a
+	Return $array
 
 
 EndFunc
@@ -1119,15 +1124,15 @@ Description: Insert a string at a specified
   position for each element in an array.
 #ce ---------------------------------------
 
-Func StringInsertV($a, $string_insert, $position)
+Func StringInsertV($array, $string_insert, $position)
 
-	For $i = 0 to Ubound($a) - 1
+	For $i = 0 to Ubound($array) - 1
 
-		$a[$i] = _StringInsert($a[$i], $string_insert, $position)
+		$array[$i] = _StringInsert($array[$i], $string_insert, $position)
 
 	Next
 
-	Return $a
+	Return $array
 
 EndFunc
 
@@ -1139,3 +1144,53 @@ Local $array = ["robert", "nathan", "faith"]
 
 _ArrayDisplay(StringInsertV($array, ",", 3))
 #ce ---
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-07-09
+Functions: grep(), grepl(), greplv(), gsub(),
+	gsubv()
+Description:
+	grep() is a synonym for StringSubset().
+
+	grepl() is a synonym for StringDetect().
+
+	greplv() is a synonym for StringDetectV().
+
+	gsub() is a synonym for StringSub().
+
+	gsubv() is a synonym for StringSubV().
+#ce ---------------------------------------
+
+
+Func grep($array, $pattern)
+
+	Return StringSubset($array, $pattern)
+
+EndFunc
+
+Func grepl($string, $pattern)
+
+	Return StringDetect($string, $pattern)
+
+EndFunc
+
+Func greplv($array, $pattern)
+
+	Return StringDetectV($array, $pattern)
+
+EndFunc
+
+Func gsub($string, $pattern, $replacement)
+
+	Return StringSub($string, $pattern, $replacement)
+
+EndFunc
+
+Func gsubv($array, $pattern, $replacement)
+
+	Return StringSubV($array, $pattern, $replacement)
+
+EndFunc
