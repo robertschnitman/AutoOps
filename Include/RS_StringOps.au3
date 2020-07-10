@@ -64,7 +64,9 @@ List of Functions:
    29. StringClear() = Removes all characters from a string.
 	  1. StringClearV()
    30. StringSwitch() = For an array, replaces specified values with another set of specified values.
+	1. swap() = synonym for StringSwitch().
    31. StringSwitchSub() = Replace specified values with another set of specified values based on a regular expression.
+	1. swapsub() = synonym for StringSwitchSub().
    32. StringInsertV() = Insert a string at a specified position for each element in an array.
    33. grep() = synonym for StringSubset()
 	  1. grepl() = synonym for StringDetect()
@@ -1051,10 +1053,14 @@ EndFunc
 
 #cs ---------------------------------------
 Author: Robert Schnitman
-Date: 2020-06-26
-Function: StringSwitch()
-Description: For an array, replaces specified values
-  with another set of specified values.
+Date Created: 2020-06-26
+Date Modified: 2020-07-10
+Functions: StringSwitch(), swap()
+Description: For an array, StringSwitch()
+  replaces specified values with another set
+  of specified values.
+
+  swap() is a synonym of StringSwitch().
 
   Inspired by recode() from the dm R package
   (https://rs-dm.netlify.app/recode.html).
@@ -1072,6 +1078,11 @@ Func StringSwitch($array, $v_initial, $v_new)
 	; The output array size should equal the input array size.
 	Return $array
 
+EndFunc
+
+Func swap($array, $v_initial, $v_new)
+
+	Return StringSwitch($array, $v_initial, $v_new)
 
 EndFunc
 
@@ -1091,10 +1102,14 @@ _ArrayDisplay(StringSwitch($x, $search, $replace))
 
 #cs ---------------------------------------
 Author: Robert Schnitman
-Date: 2020-06-26
-Function: StringSwitchSub()
-Description: For an array, replaces specified values
-  with another set of specified values based on a regular expression.
+Date Created: 2020-06-26
+Date Modified: 2020-07-10
+Functions: StringSwitchSub(), swapsub().
+Description: For an array, StringSwitchSub()
+  replaces specified values with another set
+  of specified values based on a regular expression.
+
+  swapsub() is a synonym of StringSwitchSub().
 
   Inspired by recode() from the dm R package
   (https://rs-dm.netlify.app/recode.html).
@@ -1112,6 +1127,11 @@ Func StringSwitchSub($array, $v_initial, $v_new)
 	; The output array size should equal the input array size.
 	Return $array
 
+EndFunc
+
+Func swapsub($array, $v_initial, $v_new)
+
+	Return StringSwitchSub($array, $v_initial, $v_new)
 
 EndFunc
 
