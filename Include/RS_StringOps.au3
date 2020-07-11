@@ -1,12 +1,11 @@
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-05
-Last Modified: 2020-06-14
+;~ Last Modified: 2020-07-10
 Description: A collection of custom
   string functions for AutoIt as mostly inspired
   by the stringr package from R and string methods
   from Ruby.
-
   https://stringr.tidyverse.org/reference/index.html
   https://ruby-doc.org/core-2.6/String.html
 
@@ -70,9 +69,10 @@ List of Functions:
    32. StringInsertV() = Insert a string at a specified position for each element in an array.
    33. grep() = synonym for StringSubset()
 	  1. grepl() = synonym for StringDetect()
-	  2. greplv() = vectorization of grepl(); synonym for StringDetectV)_.
+	  2. greplv() = vectorization of grepl(); synonym for StringDetectV().
 	  3. gsub() = synonym of StringSub()
 	  4. gsubv() = synonym of StringSubV().
+   34. CombineWords() = Combine all elements of an array into a single string, inserting a conjunction before the last element.
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -945,7 +945,6 @@ Functions: StringTrim(),
            StringTrimV(),
 		   StringTrim2WS(),
 		   StringTrim2WSV()
-
 Description:
 	StringTrim() removes leading and trailing whitespaces from a string.
 	StringTrimV() applies StringTrim for each element in an array.
@@ -1059,9 +1058,7 @@ Functions: StringSwitch(), swap()
 Description: For an array, StringSwitch()
   replaces specified values with another set
   of specified values.
-
   swap() is a synonym of StringSwitch().
-
   Inspired by recode() from the dm R package
   (https://rs-dm.netlify.app/recode.html).
 #ce ---------------------------------------
@@ -1090,12 +1087,9 @@ EndFunc
 ; EXAMPLE
 Local $x[] = ['1', '2', '3', '4', _
               '1', '2', '3', '4']
-
 Local $search[]  = ['2', '4']
 Local $replace[] = ["Japanese", "Thai"]
-
 _ArrayDisplay(StringSwitch($x, $search, $replace))
-
 #ce
 
 ; ===
@@ -1108,9 +1102,7 @@ Functions: StringSwitchSub(), swapsub().
 Description: For an array, StringSwitchSub()
   replaces specified values with another set
   of specified values based on a regular expression.
-
   swapsub() is a synonym of StringSwitchSub().
-
   Inspired by recode() from the dm R package
   (https://rs-dm.netlify.app/recode.html).
 #ce ---------------------------------------
@@ -1159,9 +1151,7 @@ EndFunc
 #cs --- EXAMPLE
 #include <Array.au3>
 #include <String.au3>
-
 Local $array = ["robert", "nathan", "faith"]
-
 _ArrayDisplay(StringInsertV($array, ",", 3))
 #ce ---
 
@@ -1174,13 +1164,9 @@ Functions: grep(), grepl(), greplv(), gsub(),
 	gsubv()
 Description:
 	grep() is a synonym for StringSubset().
-
 	grepl() is a synonym for StringDetect().
-
 	greplv() is a synonym for StringDetectV().
-
 	gsub() is a synonym for StringSub().
-
 	gsubv() is a synonym for StringSubV().
 #ce ---------------------------------------
 
@@ -1214,3 +1200,69 @@ Func gsubv($array, $pattern, $replacement)
 	Return StringSubV($array, $pattern, $replacement)
 
 EndFunc
+
+; ===
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-07-10
+Function: CombineWords
+Description: Combine all elements of an array
+  into a single string, inserting a conjunction
+  before the last element.
+
+  Inspired by combine_words() from the knitr
+  R library (https://www.rdocumentation.org/packages/knitr/versions/1.28/topics/combine_words).
+#ce ---------------------------------------
+
+
+Func CombineWords($array, $sep = ", ", $conjunction = " and ")
+
+	; Find the length of the array, as we need to test for three cases (n = 1, 2, or more).
+	$n  = UBound($array)
+
+	; If UBound throws an error, that means we do not have an array.
+	If $n = 0 Then
+
+		MsgBox(1, 'ERROR', "Input must be a 1D array.")
+
+	; If we have only a 1-element array, return the value.
+	ElseIf $n = 1 Then
+
+		$out = $array[0] ; e.g. Robert
+
+	; If we have two elements, insert a conjunction between them
+	ElseIf $n = 2 Then
+
+		$out = $array[0] & $conjunction & $array[1] ; e.g. Robert and Nathan
+
+	; If we have three or more elements, insert commas and a conjunction.
+	Else
+
+		; Insert the separator for each element--this will be used to split the words in the final string.
+		; StringSuffixV() is from the Robert_String Functions.au3 file.
+		$out = StringSuffixV($array, $sep) ; e.g. ["Robert, ", "Nathan, ", "Faith, "]
+
+		; Take out the separator for the last element--this will be the last word in the final string.
+		; gsub() is from the Robert_String Functions.au3 file.
+		$out[UBound($out) - 1] = gsub($out[UBound($out) - 1], $sep, "") ; e.g. ["Robert, ", "Nathan, ", "Faith"]
+
+		; Insert a conjunction in the last element.
+		$out[UBound($out) - 1] = StringTrim($conjunction) & " " & $out[UBound($out) - 1] ; e.g. ["Robert, ", "Nathan, ", "and Faith"]
+
+		; The final string should be of the format "X, Y, and Z".
+		; StringJoin() is from the Robert_String Functions.au3 file.
+		$out = StringJoin($out) ; e.g. Robert, Nathan, and Faith.
+
+	EndIf
+
+	Return $out
+
+EndFunc
+
+#cs --- Example
+Local $names[] = ["robert", "nathan", "faith"]
+
+$str = CombineWords($names)
+
+MsgBox(1, 'test', $str); robert, nathan, and faith
+#ce ---
