@@ -10,6 +10,13 @@ Description: A collection of custom functionals,
    3. MapCol()
 	  1. ColSums()
 	  2. ColMeans()
+   4. Map2()
+   5. filter()
+	  1. gt()
+	  2. gte()
+	  3. lt()
+	  4. lte()
+	  5. eq()
 #ce ---------------------------------------
 
 ; DEPENDENCY
@@ -186,3 +193,242 @@ Local $y = $x
 #include <Array.au3>
 _ArrayDisplay(Map2(Add, $x, $y))
 #ce --- END TEST
+
+; ===
+
+#cs ---
+Author: Robert Schnitman
+Date: 2020-07-10
+Function: MapReduce()
+Description: Map
+  a function to an array and
+  then reduce it via another
+  function.
+#ce ---
+
+Func MapReduce($x, $f, $o)
+
+	Return $o(Map($f, $x))
+
+EndFunc
+
+#cs --- EXAMPLE
+Local $y[] = [2, 3, 5, 7]
+
+MsgBox(1, 'test', MapReduce($y, square, Sum))
+MsgBox(1, 'test', MapReduce($y, square, StringJoin))
+
+Func square($x)
+
+	Return $x*$x
+
+EndFunc
+
+#ce ---
+
+#cs ---
+Author: Robert Schnitman
+Date: 2020-07-10
+Functions: filter(), gt(), gte(), lt(), lte(), eq()
+Description:
+	filter() subsets an array based on a filtering function.
+
+	gt() subsets an array for elements greater than a specified value.
+
+	gte() subsets an array for elements greater than or equal to a specified value.
+
+	lt() subsets an array for elements less than a specified value.
+
+	lte() subsets an array for elements less than or equal to a specified value.
+
+	eq() subsets an array for elements equal to a specified value.
+
+#ce ---
+
+Func filter($array, $filt_fun, $val)
+
+	; Subset array based on a filtering function
+	Return $filt_fun($array, $val)
+
+EndFunc
+
+; Subset array for elements greater than a specified value.
+Func gt($array, $val)
+
+	; Create a True/False array to know where to find the desired elements.
+	Local $test[UBound($array)] = [0]
+
+		For $i = 0 to UBound($array) - 1
+
+			If $array[$i] > $val Then
+
+				$test[$i] = True
+
+			Else
+
+				$test[$i] = False
+
+			EndIf
+
+		Next
+
+	; Find where the specified condition is True
+	$indices = StringPos($test, "True")
+
+	; The resultant array should only contain the elements where $indices is True.
+	Local $out[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($out) - 1
+
+		$out[$i] = $array[$indices[$i]]
+
+	Next
+
+	Return $out
+
+EndFunc
+
+; Subset array for elements greater than or equal to a specified value.
+Func gte($array, $val)
+
+	; Create a True/False array to know where to find the desired elements.
+	Local $test[UBound($array)] = [0]
+
+		For $i = 0 to UBound($array) - 1
+
+			If $array[$i] >= $val Then
+
+				$test[$i] = True
+
+			Else
+
+				$test[$i] = False
+
+			EndIf
+
+		Next
+
+	; Find where the specified condition is True
+	$indices = StringPos($test, "True")
+
+	; The resultant array should only contain the elements where $indices is True.
+	Local $out[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($out) - 1
+
+		$out[$i] = $array[$indices[$i]]
+
+	Next
+
+	Return $out
+
+EndFunc
+
+; Subset an array for elements being less than a specified value.
+Func lt($array, $val)
+
+	Local $test[UBound($array)] = [0]
+
+		For $i = 0 to UBound($array) - 1
+
+			If $array[$i] < $val Then
+
+				$test[$i] = True
+
+			Else
+
+				$test[$i] = False
+
+			EndIf
+
+		Next
+
+	$indices = StringPos($test, "True")
+
+	Local $out[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($out) - 1
+
+		$out[$i] = $array[$indices[$i]]
+
+	Next
+
+	Return $out
+
+EndFunc
+
+; Subset an array for elements being less than or equal to a specified value.
+Func lte($array, $val)
+
+	Local $test[UBound($array)] = [0]
+
+		For $i = 0 to UBound($array) - 1
+
+			If $array[$i] <= $val Then
+
+				$test[$i] = True
+
+			Else
+
+				$test[$i] = False
+
+			EndIf
+
+		Next
+
+	$indices = StringPos($test, "True")
+
+	Local $out[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($out) - 1
+
+		$out[$i] = $array[$indices[$i]]
+
+	Next
+
+	Return $out
+
+EndFunc
+
+; Subset an array for elements equaling a specified value.
+Func eq($array, $val)
+
+	Local $test[UBound($array)] = [0]
+
+		For $i = 0 to UBound($array) - 1
+
+			If $array[$i] = $val Then
+
+				$test[$i] = True
+
+			Else
+
+				$test[$i] = False
+
+			EndIf
+
+		Next
+
+	$indices = StringPos($test, "True")
+
+	Local $out[UBound($indices)] = [0]
+
+	For $i = 0 to UBound($out) - 1
+
+		$out[$i] = $array[$indices[$i]]
+
+	Next
+
+	Return $out
+
+EndFunc
+
+#cs --- TEST
+Local $x[] = [2, 3, 5, 7, 3]
+
+;_ArrayDisplay(gt($x, 4))
+;_ArrayDisplay(lt($x, 4))
+;_ArrayDisplay(eq($x, 3))
+;_ArrayDisplay(filter($x, gt, 3))
+
+#ce ---
