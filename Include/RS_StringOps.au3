@@ -57,21 +57,21 @@ List of Functions:
 		2. StringTrim2WS() = Removes double or more spaces.
 		3. StringTrim2WSV()
    28. StringPrefix()   = Appends a prefix to a string.
-	  1. StringPrefixV()
-	  2. StringSuffix() = Appends a suffix to a string.
-	  3. StringSuffixV()
+		1. StringPrefixV()
+		2. StringSuffix() = Appends a suffix to a string.
+		3. StringSuffixV()
    29. StringClear() = Removes all characters from a string.
-	  1. StringClearV()
+		1. StringClearV()
    30. StringSwitch() = For an array, replaces specified values with another set of specified values.
-	1. swap() = synonym for StringSwitch().
+		1. swap() = synonym for StringSwitch().
    31. StringSwitchSub() = Replace specified values with another set of specified values based on a regular expression.
-	1. swapsub() = synonym for StringSwitchSub().
+		1. swapsub() = synonym for StringSwitchSub().
    32. StringInsertV() = Insert a string at a specified position for each element in an array.
    33. grep() = synonym for StringSubset()
-	  1. grepl() = synonym for StringDetect()
-	  2. greplv() = vectorization of grepl(); synonym for StringDetectV().
-	  3. gsub() = synonym of StringSub()
-	  4. gsubv() = synonym of StringSubV().
+		1. grepl() = synonym for StringDetect()
+		2. greplv() = vectorization of grepl(); synonym for StringDetectV().
+		3. gsub() = synonym of StringSub()
+		4. gsubv() = synonym of StringSubV().
    34. CombineWords() = Combine all elements of an array into a single string, inserting a conjunction before the last element.
 #ce ---------------------------------------
 
