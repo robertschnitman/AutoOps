@@ -57,22 +57,23 @@ List of Functions:
 		2. StringTrim2WS() = Removes double or more spaces.
 		3. StringTrim2WSV()
    28. StringPrefix()   = Appends a prefix to a string.
-		1. StringPrefixV()
-		2. StringSuffix() = Appends a suffix to a string.
-		3. StringSuffixV()
+	  1. StringPrefixV()
+	  2. StringSuffix() = Appends a suffix to a string.
+	  3. StringSuffixV()
    29. StringClear() = Removes all characters from a string.
-		1. StringClearV()
+	  1. StringClearV()
    30. StringSwitch() = For an array, replaces specified values with another set of specified values.
-		1. swap() = synonym for StringSwitch().
+	1. swap() = synonym for StringSwitch().
    31. StringSwitchSub() = Replace specified values with another set of specified values based on a regular expression.
-		1. swapsub() = synonym for StringSwitchSub().
+	1. swapsub() = synonym for StringSwitchSub().
    32. StringInsertV() = Insert a string at a specified position for each element in an array.
    33. grep() = synonym for StringSubset()
-		1. grepl() = synonym for StringDetect()
-		2. greplv() = vectorization of grepl(); synonym for StringDetectV().
-		3. gsub() = synonym of StringSub()
-		4. gsubv() = synonym of StringSubV().
+	  1. grepl() = synonym for StringDetect()
+	  2. greplv() = vectorization of grepl(); synonym for StringDetectV().
+	  3. gsub() = synonym of StringSub()
+	  4. gsubv() = synonym of StringSubV().
    34. CombineWords() = Combine all elements of an array into a single string, inserting a conjunction before the last element.
+   35. StringAny() = check if any array element matches a string pattern.
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -1266,3 +1267,41 @@ $str = CombineWords($names)
 
 MsgBox(1, 'test', $str); robert, nathan, and faith
 #ce ---
+
+; ===
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-07-22
+Function: StringAny()
+Description: Check if any array element contains
+  a string pattern.
+#ce ---------------------------------------
+
+Func StringAny($array, $pattern)
+
+	$check = greplv($array, $pattern)
+
+	$check_unique = _ArrayUnique($check)
+
+	If IsArray($check_unique) Then
+
+		If UBound($check_unique) < 2 and $check_unique[0] = "False" Then
+
+			$output = False
+
+		Else
+
+			$output = True
+
+		EndIf
+
+	Else
+
+		$output = False
+
+	EndIf
+
+	Return $output
+
+EndFunc
