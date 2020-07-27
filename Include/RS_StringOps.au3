@@ -74,6 +74,8 @@ List of Functions:
 	  4. gsubv() = synonym of StringSubV().
    34. CombineWords() = Combine all elements of an array into a single string, inserting a conjunction before the last element.
    35. StringAny() = check if any array element matches a string pattern.
+   56. StringTitleCase() = capitalize each word.
+	  1. StringTitleCaseV() = capitalize each word for each array element.
 #ce ---------------------------------------
 
 ; DEPENDENCIES
@@ -1305,3 +1307,56 @@ Func StringAny($array, $pattern)
 	Return $output
 
 EndFunc
+
+; ===
+
+#include ".\RS__Library.au3"
+
+#cs ---------------------------------------
+Author: Robert Schnitman
+Date: 2020-07-27
+Functions: StringTitleCase(), StringTitleCaseV()
+Description: StringTitleCase capitalizes
+  each word in a string.
+
+  StringTitleCaseV() applies StringTitleCase()
+  to each array element.
+#ce ---------------------------------------
+
+Func StringTitleCase($string)
+
+	$split = StringSplit($string, " ", 2)
+
+	For $i = 0 to UBound($split) - 1
+
+		$first_char = StringLeft($split[$i], 1)
+		$search     = "^" & $first_char
+		$replace    = StringUpper($first_char)
+
+		$split[$i] = gsub($split[$i], $search, $replace)
+
+	Next
+
+	$output = StringJoin($split, " ")
+
+	Return $output
+
+EndFunc
+
+Func StringTitleCaseV($array)
+
+	For $i = 0 to UBound($array) - 1
+
+		$array[$i] = StringTitleCase($array[$i])
+
+	Next
+
+	Return $array
+
+EndFunc
+
+#cs --- EXAMPLE
+Local $books[] = ["and then there were none", "driven to distraction", "economic writing"]
+
+_ArrayDisplay(StringTitleCaseV($books))
+#ce ---
