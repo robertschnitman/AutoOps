@@ -74,7 +74,7 @@ List of Functions:
 	  4. gsubv() = synonym of StringSubV().
    34. CombineWords() = Combine all elements of an array into a single string, inserting a conjunction before the last element.
    35. StringAny() = check if any array element matches a string pattern.
-   56. StringTitleCase() = capitalize each word.
+   36. StringTitleCase() = capitalize each word.
 	  1. StringTitleCaseV() = capitalize each word for each array element.
 #ce ---------------------------------------
 
