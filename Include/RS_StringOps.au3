@@ -1310,8 +1310,6 @@ EndFunc
 
 ; ===
 
-#include ".\RS__Library.au3"
-
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-07-27
