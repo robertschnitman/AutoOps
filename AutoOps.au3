@@ -16,10 +16,10 @@ Description: A master file of Robert's
 #include <StringConstants.au3>
 
 ; Robert's functions.
-#include ".\RS_AdminOps.au3" ; Functions for admin operations
-#include ".\RS_ArrayOps.au3" ; Functions for managing arrays.
-#include ".\RS_Dates.au3" ; Functions for for common date values.
-#include ".\RS_FileOps.au3" ; Functions for managing files.
-#include ".\RS_Functionals.au3" ; Functions that vectorize other functions.
-#include ".\RS_Math.au3" ; Math functions.
-#include ".\RS_StringOps.au3" ; Vectorized string functions
+#include ".\AdminOps.au3" ; Functions for admin operations
+#include ".\ArrayOps.au3" ; Functions for managing arrays.
+#include ".\Dates.au3" ; Functions for for common date values.
+#include ".\FileOps.au3" ; Functions for managing files.
+#include ".\Functionals.au3" ; Functions that vectorize other functions.
+#include ".\Math.au3" ; Math functions.
+#include ".\StringOps.au3" ; Vectorized string functions
