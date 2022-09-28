@@ -5,7 +5,7 @@ Description: A collection of custom
   AutoIt functions for file management.
 List of Functions:
    1. FileRename()
-   2. FileRename_All()
+   2. FileRenameAll()
 #ce ---------------------------------------
 
 ; The functions in this file depend on the following scripts.
@@ -57,12 +57,12 @@ FileRename($my_dir, 'RenameMe_1.txt', 'NEWNAME_1.txt')
 #cs ---------------------------------------
 Author: Robert Schnitman
 Date: 2020-06-05
-Function: FileRename_All()
+Function: FileRenameAll()
 Description: Renames all files in a
   specified directory based on a given pattern.
 #ce ---------------------------------------
 
-Func FileRename_All($dir, $file_pattern, $string_old, $string_new)
+Func FileRenameAll($dir, $file_pattern, $string_old, $string_new)
 
    ; If the last character in the directory name is NOT a back slash, throw an error.
    ; 	We need the final backslash so that we can concatenate the directory and the file names.
@@ -95,9 +95,9 @@ EndFunc
 
 
 #cs -- TEST BEGIN
-; load the StringReplaceV() function that's required for FileRename_All() to run
+; load the StringReplaceV() function that's required for FileRenameAll() to run
 #include ".\RS_StringOps.au3"
 $my_dir = 'I:\Robert\AutoIt\Tests\RenameFiles\'
-FileRename_All($my_dir, 'RenameMe*.txt', 'RenameMe', 'NEWNAME')
-;FileRename_All($my_dir, 'NEWNAME*.txt', 'NEWNAME', 'RenameMe')
+FileRenameAll($my_dir, 'RenameMe*.txt', 'RenameMe', 'NEWNAME')
+;FileRenameAll($my_dir, 'NEWNAME*.txt', 'NEWNAME', 'RenameMe')
 #ce -- TEST END
