@@ -1,8 +1,7 @@
 # AutoOps
+AutoIt utility functions for parsing files, arrays, and strings.
 
- General AutoIt functions and functionals for managing files, manipulating arrays, and parsing strings.
-
-# How to Use
+# Installation
 
 1. Download this repository anywhere on your computer. 
 
